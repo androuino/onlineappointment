@@ -1,7 +1,7 @@
 package com.intellisrc.josapedmoreno.data
 
 data class AppointmentModel(
-    var id: Int = 0,
+    var pid: Int = 0,
     var firstName: String = "",
     var lastName: String = "",
     var email: String = "",
@@ -11,7 +11,7 @@ data class AppointmentModel(
 ) {
     fun toMap(): Map<String, Any> {
         return mapOf(
-            "id" to id,
+            "pid" to pid,
             "firstName" to firstName,
             "lastName" to lastName,
             "email" to email,

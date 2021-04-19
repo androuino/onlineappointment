@@ -1,7 +1,9 @@
 package com.intellisrc.josapedmoreno.ui
 
+import com.google.gson.Gson
 import com.intellisrc.core.Log
 import com.intellisrc.josapedmoreno.appointment.Appointment
+import com.intellisrc.josapedmoreno.data.AppointmentModel
 import com.intellisrc.web.Service
 import com.intellisrc.web.ServiciableMultiple
 
@@ -19,6 +21,7 @@ class WebUIService : ServiciableMultiple {
         val services: MutableList<Service> = ArrayList()
         services.add(buttonActivity())
         services.add(getAppointments())
+        services.add(updateRecord())
         return services
     }
 
@@ -40,6 +43,7 @@ class WebUIService : ServiciableMultiple {
         fun getAppointments(): Service {
             var ok = false
             val service = Service()
+            service.method = Service.Method.GET
             service.path = "/appts/:offset/:qty"
             service.allowOrigin = "*"
             service.action = Service.Action { request, response ->
@@ -72,6 +76,54 @@ class WebUIService : ServiciableMultiple {
                     Log.w("Requested list parameters were mistaken")
                 }
                 mapOf("ok" to ok, "data" to apptList)
+            }
+            return service
+        }
+
+        fun updateRecord(): Service {
+            val service = Service()
+            service.method = Service.Method.POST
+            service.path = "/update/:id"
+            service.allowOrigin = "*"
+            service.action = Service.Action { request, response ->
+                var ok = false
+                val id: Int
+                var err = ""
+                val gson = Gson()
+                try {
+                    id = Integer.parseInt(request.params("id"))
+                    val body = request.body().trim()
+                    if (body.isNotEmpty()) {
+                        Appointment().updateRecord(id)
+                        val data = gson.fromJson(body, AppointmentModel::class.java).toMap()
+                        if (data.isNotEmpty()) {
+                            Log.i("Update record requested by %s", request.ip())
+                            data.entries.forEach {
+                                when (it.key) {
+                                    "firstName", "lastName" -> ok = Appointment().updateName(data["firstName"].toString(), data["lastName"].toString())
+                                    "email" -> ok = Appointment().updateEmail(data["email"].toString())
+                                    "contactNumber" -> ok = Appointment().updateContactNumber(data["contactNumber"].toString())
+                                    "apptType" -> ok = Appointment().updateApptType(data["apptType"].toString())
+                                    "apptDate" -> ok = Appointment().updateApptDate(data["apptDate"].toString())
+                                    else -> Log.w("Unidentified key: %s", it.key)
+                                }
+                            }
+                        } else {
+                            response.status(400)
+                            err = "data was empty or invalid. Please check the request."
+                        }
+                    } else {
+                        response.status(400)
+                        err = "body was empty"
+                    }
+                } catch (e: Appointment.IllegalApptException) {
+                    response.status(400)
+                    Log.e("Invalid ID %s passed to update.", e)
+                }
+                if (err.isNotEmpty()) {
+                    Log.w("err: %e", err)
+                }
+                mapOf("ok" to ok, "err" to err)
             }
             return service
         }

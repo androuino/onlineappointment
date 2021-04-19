@@ -2,7 +2,6 @@ article {
     width: auto;
     background: $white;
     margin: 0;
-    padding: 5px;
     overflow-x: hidden;
     border-bottom: 1px solid #EEE;
     ul {
@@ -10,7 +9,7 @@ article {
         padding: 0;
         li {
             display: grid;
-            grid-template-columns: 200px 200px auto auto auto auto;
+            grid-template-columns: 250px 250px 150px 150px 100px auto;
             grid-template-areas: "firstName lastName email contactNumber appointment_type appointment_date";
             grid-gap: 0;
             list-style: none;
@@ -18,14 +17,16 @@ article {
             white-space: normal;
             cursor: pointer;
             list-style-position: inside;
-            border: 1px solid #EEE;
             &:hover {
-                background-color: #f2f2f2;
+                background-color: #8fbc8f;
             }
             span {
                 line-height: 70px;
                 font-size: 100%;
                 white-space: normal;
+                display: inline-block;
+                border: 1px solid black;
+                padding-left: 5px;
                 .firstName {
                     grid-area: firstName;
                     word-wrap: break-word;

@@ -5,6 +5,5 @@ log/
 .gradle
 .idea
 node_modules
-resources/private/jsrc/system.js
 package-lock.json
 main.db

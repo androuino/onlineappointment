@@ -32,7 +32,7 @@
                 <li class="headerEmail">E-mail</li>
                 <li class="headerContactNumber">Contact Number</li>
                 <li class="headerApptType">Type</li>
-                <li class="headerApptDate">Date</li>
+                <li class="headerApptDate">Date & Time</li>
             </ol>
         </section>
         <article id="table">
@@ -43,38 +43,39 @@
                         <span class="lastName">Doe</span>
                         <span class="email">email@email.com</span>
                         <span class="contactNumber">012-3456-7890</span>
-                        <span class="appointment_type">Passport</span>
-                        <span class="appointment_date">2000-01-01 00:00</span>
+                        <span class="appointmentType">Passport</span>
+                        <span class="appointmentDate">2000-01-01 00:00</span>
                     </li>
                 </ul>
             </template>
         </article>
-        <aside>
-            <form id="appointment">
+        <aside id="appointment">
+            <form id="form">
                 <label>
-                    <input type="text" id="first_name" name="first_name" placeholder="First Name">
+                    <input type="text" id="firstName" name="firstName" placeholder="First Name">
                 </label>
                 <label>
-                    <input type="text" id="last_name" name="last_name" placeholder="Last Name">
+                    <input type="text" id="lastName" name="lastName" placeholder="Last Name">
                 </label>
                 <label>
                     <input type="email" id="email" name="email" placeholder="E-mail">
                 </label>
                 <label>
-                    <input type="number" id="contact_number" name="contact_number" placeholder="012-3456-7890">
+                    <input type="number" id="contactNumber" name="contactNumber" placeholder="01234567890">
                 </label>
                 <label>
-                    <select id="appt_type" name="Purpose">
+                    <select id="apptType" name="apptType">
                         <option value="passport" selected>Passport</option>
                         <option value="visa">Visa</option>
                         <option value="rob">ROB</option>
                     </select>
                 </label>
                 <label>
-                    <input type="datetime-local" id="appt_date" name="date" placeholder="yyyy-mm-dd 00:00">
+                    <input type="datetime-local" id="apptDate" name="apptDate" placeholder="yyyy-mm-dd 00:00">
                 </label>
+                <input type="hidden" name="pid" class="pid" value="">
+                <button type="submit" class="fa fa-lock">Submit</button>
             </form>
-            <button id="test" class="fa fa-lock">Submit</button>
         </aside>
         <footer>
         </footer>

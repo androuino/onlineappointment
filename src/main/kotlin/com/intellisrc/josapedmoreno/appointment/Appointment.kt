@@ -14,11 +14,12 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class Appointment {
-    var id = 0
+    private val table = "appointments"
+    private var appointmentModel = AppointmentModel()
 
     fun getAll(offset: Int, qty: Int): List<AppointmentModel> {
         val db: DB = Database.connect()
-        val rows = db.table("appointments").limit(qty, offset).get()
+        val rows = db.table(table).limit(qty, offset).get()
         db.close()
         val data = rows.toListMap()
         data.forEach {
@@ -27,13 +28,53 @@ class Appointment {
         return fromData(rows)
     }
 
+    fun updateRecord(id : Int) {
+        if (id <= 0) {
+            Log.w("Invalid ID %s", id)
+            throw IllegalApptException()
+        }
+        val db: DB = Database.connect()
+        val row = db.table(table).key("id").get(id)
+        db.close()
+
+        if (row.isEmpty || row == null) {
+            Log.w("Record with id:%s doesn't exists!")
+            throw IllegalApptException()
+        }
+
+        val appt = cleanInputMap(row.toMap())
+        appointmentModel = AppointmentModel(
+            appt["id"].toString().toInt(),
+            appt["firstName"].toString(),
+            appt["lastName"].toString(),
+            appt["email"].toString(),
+            appt["contactNumber"].toString(),
+            appt["apptType"].toString(),
+            appt["apptDate"].toString()
+        )
+        /*
+        appointmentModel.pid = appt["id"].toString().toInt()
+        appointmentModel.firstName = appt["firstName"].toString()
+        appointmentModel.lastName = appt["lastName"].toString()
+        appointmentModel.email = appt["email"].toString()
+        appointmentModel.contactNumber = appt["contactNumber"].toString()
+        appointmentModel.apptType = appt["apptType"].toString()
+        appointmentModel.apptDate = appt["apptDate"].toString()
+         */
+    }
+
+    private fun isValid(): Boolean {
+        Log.i("id: %d, firstName: %s", appointmentModel.pid, appointmentModel.firstName)
+        return appointmentModel.pid > 0 || appointmentModel.firstName.isNotEmpty()
+    }
+
     private fun cleanInputMap(input: Map<Any?, Any?>?): Map<Any?, Any?> {
         val cleanMap = HashMap<Any?, Any?>()
         var ok = true
         for (inKey in input?.keys!!) {
             when (inKey) {
                 "id" -> cleanMap[inKey as String] = input[inKey].toString().toInt()
-                "first_name", "last_name" -> {
+                "firstName", "lastName" -> {
                     val name = input[inKey].toString().trim { it <= ' ' }
                         .replace("[^a-z A-Z]".toRegex(), "")
                     if (name.isNotEmpty()) {
@@ -54,7 +95,7 @@ class Appointment {
                     Log.w("Age value was invalid: %s", input[inKey].toString())
                     ok = false
                 }
-                "contact_number" -> {
+                "contactNumber" -> {
                     val contactNumber = input[inKey].toString()
                     if (contactNumber.isNotEmpty())
                         cleanMap[inKey as String] = contactNumber
@@ -63,7 +104,7 @@ class Appointment {
                         ok = false
                     }
                 }
-                "appointment_type" -> {
+                "apptType" -> {
                     val appointmentType = input[inKey].toString()
                     if (appointmentType.isNotEmpty())
                         cleanMap[inKey as String] = appointmentType
@@ -72,7 +113,7 @@ class Appointment {
                         ok = false
                     }
                 }
-                "appointment_date" -> {
+                "apptDate" -> {
                     val appointmentDate = input[inKey].toString()
                     if (appointmentDate.isNotEmpty())
                         cleanMap[inKey as String] = appointmentDate
@@ -97,12 +138,13 @@ class Appointment {
     private fun fromMap(map: Map<Any?, Any?>?): AppointmentModel {
         val appt = AppointmentModel()
         val apptMap: Map<Any?, Any?> = cleanInputMap(map)
-        appt.firstName = apptMap["first_name"].toString()
-        appt.lastName = apptMap["last_name"].toString()
-        appt.email = apptMap["email"].toString()
-        appt.contactNumber = apptMap["contact_number"].toString()
-        appt.apptType = apptMap["appointment_type"].toString()
-        appt.apptDate = apptMap["appointment_date"].toString()
+        appt.pid           = apptMap["id"].toString().toInt()
+        appt.firstName     = apptMap["firstName"].toString()
+        appt.lastName      = apptMap["lastName"].toString()
+        appt.email         = apptMap["email"].toString()
+        appt.contactNumber = apptMap["contactNumber"].toString()
+        appt.apptType      = apptMap["apptType"].toString()
+        appt.apptDate      = apptMap["apptDate"].toString()
         return appt
     }
 
@@ -117,6 +159,83 @@ class Appointment {
             }
         }
         return Collections.unmodifiableList(list)
+    }
+
+    fun updateName(newFirstName : String, newLastName: String): Boolean {
+        var ok = false
+        if (isValid() && appointmentModel.firstName.isNotEmpty() && appointmentModel.lastName.isNotEmpty()) {
+            val db: DB = Database.connect()
+            ok = db.table(table).key("id").update(mapOf("firstName" to newFirstName, "lastName" to newLastName), appointmentModel.pid)
+            if (ok) {
+                appointmentModel.firstName = newFirstName
+                appointmentModel.lastName = newLastName
+            }
+            db.close()
+            Log.i("Record with id: %d updated name to: %s %s", appointmentModel.pid, newFirstName, newLastName)
+        } else {
+            Log.w("updateName(): Not valid.")
+        }
+        return ok
+    }
+
+    fun updateEmail(newEmail: String): Boolean {
+        var ok = false
+        if (isValid()) {
+            val db: DB = Database.connect()
+            ok = db.table(table).key("id").update(mapOf("email" to newEmail), appointmentModel.pid)
+            if (ok)
+                appointmentModel.email = newEmail
+            db.close()
+            Log.i("Record with id: %d updated Email to: %s", appointmentModel.pid, newEmail)
+        } else {
+            Log.w("updateEmail(): Not valid.")
+        }
+        return ok
+    }
+
+    fun updateContactNumber(newContactNumber: String): Boolean {
+        var ok = false
+        if (isValid()) {
+            val db: DB = Database.connect()
+            ok = db.table(table).key("id").update(mapOf("contactNumber" to newContactNumber), appointmentModel.pid)
+            if (ok)
+                appointmentModel.contactNumber = newContactNumber
+            db.close()
+            Log.i("Record with id: %d updated Contact Number to: %s", appointmentModel.pid, newContactNumber)
+        } else {
+            Log.w("updateContactNumber(): Not valid.")
+        }
+        return ok
+    }
+
+    fun updateApptType(newApptType: String): Boolean {
+        var ok = false
+        if (isValid()) {
+            val db: DB = Database.connect()
+            ok = db.table(table).key("id").update(mapOf("apptType" to newApptType), appointmentModel.pid)
+            if (ok)
+                appointmentModel.apptType = newApptType
+            db.close()
+            Log.i("Record with id: %d updated Appt. Type to: %s", appointmentModel.pid, newApptType)
+        } else {
+            Log.w("updateApptType(): Not valid.")
+        }
+        return ok
+    }
+
+    fun updateApptDate(newApptDate: String): Boolean {
+        var ok = false
+        if (isValid()) {
+            val db: DB = Database.connect()
+            ok = db.table(table).key("id").update(mapOf("apptDate" to newApptDate), appointmentModel.pid)
+            if (ok)
+                appointmentModel.apptDate = newApptDate
+            db.close()
+            Log.i("Record with id: %d updated Appt. Date to: %s", appointmentModel.pid, newApptDate)
+        } else {
+            Log.w("updateApptDate(): Not valid.")
+        }
+        return ok
     }
 
     class IllegalApptException : Exception()
