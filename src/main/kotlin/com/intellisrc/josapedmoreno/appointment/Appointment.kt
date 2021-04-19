@@ -42,6 +42,7 @@ class Appointment {
             throw IllegalApptException()
         }
 
+        // TODO: Make this object to have the actual values from db query.
         val appt = cleanInputMap(row.toMap())
         appointmentModel = AppointmentModel(
             appt["id"].toString().toInt(),
