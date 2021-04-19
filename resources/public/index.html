@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Josaped Moreno</title>
+
+        <meta charset="UTF-8">
+        <meta name="HandheldFriendly"   content="1">
+        <meta name="viewport"           content="width=device-width, maximum-scale=0.87">
+        <meta name="theme-color"        content="#71AC69">
+
+        <link rel='icon' href='/img/logo-16.png'   type='image/png'>
+        <link rel="icon" href="/img/logo-32.png"   type='image/png'    sizes="32x32">
+        <link rel="icon" href="/img/logo-64.png"   type='image/png'    sizes="64x64">
+        <link rel="icon" href="/img/logo-128.png"  type='image/png'    sizes="128x128">
+        <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="css/system.css" type="text/css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script src="js/m2d2.min.js" type="text/javascript"></script>
+        <script src="js/system.min.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <header>
+            <h1><img src="/img/logo-32.png" alt="Rest Demo logo" width="32" height="32"> Online Appointment</h1>
+        </header>
+        <section id="header_list">
+            <ol>
+                <li class="headerFName">First Name</li>
+                <li class="headerLName">Last Name</li>
+                <li class="headerEmail">E-mail</li>
+                <li class="headerContactNumber">Contact Number</li>
+                <li class="headerApptType">Type</li>
+                <li class="headerApptDate">Date</li>
+            </ol>
+        </section>
+        <article id="table">
+            <template>
+                <ul>
+                    <li>
+                        <span class="firstName">John</span>
+                        <span class="lastName">Doe</span>
+                        <span class="email">email@email.com</span>
+                        <span class="contactNumber">012-3456-7890</span>
+                        <span class="appointment_type">Passport</span>
+                        <span class="appointment_date">2000-01-01 00:00</span>
+                    </li>
+                </ul>
+            </template>
+        </article>
+        <aside>
+            <form id="appointment">
+                <label>
+                    <input type="text" id="first_name" name="first_name" placeholder="First Name">
+                </label>
+                <label>
+                    <input type="text" id="last_name" name="last_name" placeholder="Last Name">
+                </label>
+                <label>
+                    <input type="email" id="email" name="email" placeholder="E-mail">
+                </label>
+                <label>
+                    <input type="number" id="contact_number" name="contact_number" placeholder="012-3456-7890">
+                </label>
+                <label>
+                    <select id="appt_type" name="Purpose">
+                        <option value="passport" selected>Passport</option>
+                        <option value="visa">Visa</option>
+                        <option value="rob">ROB</option>
+                    </select>
+                </label>
+                <label>
+                    <input type="datetime-local" id="appt_date" name="date" placeholder="yyyy-mm-dd 00:00">
+                </label>
+            </form>
+            <button id="test" class="fa fa-lock">Submit</button>
+        </aside>
+        <footer>
+        </footer>
+        <section id="loading"><div>Loading... please wait.</div></section>
+    </body>
+</html>

@@ -1,0 +1,46 @@
+section {
+    width: auto;
+    height: $section_height;
+    background: $white;
+    margin: 0;
+    padding: 5px;
+    text-align: left;
+    border-bottom: 1px solid #EEE;
+    ol {
+        display: grid;
+        grid-template-columns: 200px 200px auto auto auto auto;
+        grid-template-ares: "headerFName headerLName headerEmail headerContactNumber headerApptType headerApptDate";
+        grid-gap: 0;
+        margin: 0;
+        padding: 0;
+        li {
+            vertical-align: middle;
+            line-height: 50px;
+            font-size: 110%;
+            list-style: none;
+            white-space: normal;
+            list-style-position: inside;
+            border: 1px solid #EEE;
+            .headerFName {
+                grid-area: headerFName;
+            }
+            .headerLName {
+                grid-area: headerLName;
+            }
+            .headerEmail {
+                grid-area: headerEmail;
+            }
+            .headerContactNumber {
+                grid-area: headerContactNumber;
+            }
+            .headerApptType {
+                grid-area: headerApptType;
+                word-wrap: break-word;
+            }
+            .headerApptDate {
+                grid-area: headerApptDate;
+                word-wrap: break-word;
+            }
+        }
+    }
+}

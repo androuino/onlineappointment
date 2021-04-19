@@ -1,0 +1,42 @@
+// Style for elements and general classes
+button {
+    min-width: 100px;
+    padding: 10px 20px;
+    background-color: $highlight;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+    display: inline-block;
+    &:hover {
+        background-color: #666;
+    }
+    &.red {
+        background-color: $red;
+    }
+    &.blue {
+        background-color: $blue;
+    }
+}
+.hidden {
+    display: none;
+}
+h1, h2, h3 {
+    margin: 0;
+}
+a, a:visited {
+    color : #2970ce;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
+    &.white {
+        color: white;
+        &:hover {
+            color: #EEE;
+        }
+    }
+    &.red {
+        color: $main_color;
+    }
+}

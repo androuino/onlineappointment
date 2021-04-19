@@ -1,0 +1,36 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: $background;
+    display: grid;
+    grid-gap: 0;
+    grid-template-columns: $article_width $article_width $side_width;
+    grid-template-rows: $bar_height $section_height calc(100vh - (#{$bar_height} * 2 + #{$section_height})) $bar_height;
+    grid-template-areas: "header header header"
+                         "section section aside"
+                         "article article aside"
+                         "footer footer footer";
+    /*
+    grid-template-rows: $bar_height $section_height calc(100vh - (#{$bar_height} * 2)) $bar_height;
+    grid-template-areas: "header header header"
+                         "article article aside"
+                         "footer footer footer";
+    */
+    header {
+        grid-area: header;
+    }
+    section {
+        grid-area: section;
+    }
+    article {
+        grid-area: article;
+        overflow: auto;
+    }
+    aside {
+        grid-area: aside;
+        overflow: auto;
+    }
+    footer {
+        grid-area: footer;
+    }
+}

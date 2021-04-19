@@ -1,0 +1,52 @@
+article {
+    width: auto;
+    background: $white;
+    margin: 0;
+    padding: 5px;
+    overflow-x: hidden;
+    border-bottom: 1px solid #EEE;
+    ul {
+        margin: 0;
+        padding: 0;
+        li {
+            display: grid;
+            grid-template-columns: 200px 200px auto auto auto auto;
+            grid-template-areas: "firstName lastName email contactNumber appointment_type appointment_date";
+            grid-gap: 0;
+            list-style: none;
+            text-align: left;
+            white-space: normal;
+            cursor: pointer;
+            list-style-position: inside;
+            border: 1px solid #EEE;
+            &:hover {
+                background-color: #f2f2f2;
+            }
+            span {
+                line-height: 70px;
+                font-size: 100%;
+                white-space: normal;
+                .firstName {
+                    grid-area: firstName;
+                    word-wrap: break-word;
+                }
+                .lastName {
+                    grid-area: lastName;
+                    word-wrap: break-word;
+                }
+                .email {
+                    grid-area: email;
+                }
+                .contactNumber {
+                    grid-area: contactNumber;
+                }
+                .appointment_type {
+                    grid-area: appointment_type;
+                }
+                .appointment_date {
+                    grid-area: appointment_date;
+                }
+            }
+        }
+    }
+}
