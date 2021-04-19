@@ -1,0 +1,20 @@
+#!/bin/bash
+clear
+
+if [[ -f /Library/Java/JavaVirtualMachines/jdk-15.0.2.jdk/Contents/Home/bin/java ]]; then
+  msgJAVABIN="/Library/Java/JavaVirtualMachines/jdk-15.0.2.jdk/Contents/Home/bin/java"
+  echo "jdk-15"
+elif [[ -f /opt/java/openjdk/bin/java ]]; then
+  msgJAVABIN="/opt/java/openjdk/bin/java"
+  echo "openjdk"
+elif [[ -f /usr/bin/java ]]; then
+  msgJAVABIN="/usr/bin/java"
+  echo "bin/java"
+else
+  echo "Unknown location of Java"
+  msgJAVABIN="java"
+fi
+#classpath is not required but it doesn't hurt
+JAR=$(ls -v -w 1 *.jar | tail -n1)
+$msgJAVABIN -Xmx512M -jar $JAR ${@:1}
+exit

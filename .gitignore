@@ -1,1 +1,9 @@
 # onlineappointment
+build
+lib/
+log/
+.gradle
+.idea
+node_modules
+resources/private/jsrc/system.js
+main.db
