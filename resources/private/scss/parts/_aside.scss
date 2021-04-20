@@ -5,20 +5,20 @@ aside {
     form {
         margin: 0 auto;
         width: 16px*20;
-        padding: 16px;
+        padding: $font_size;
     }
     input, button, select {
         border: 0;
         outline: 0;
-        font-size: 16px;
-        border-radius: 16px*20;
-        padding: 16px;
+        font-size: $font_size;
+        border-radius: $font_size*20;
+        padding: $font_size;
         background-color: #EBECF0;
         text-shadow: 1px 1px 0 #FFF;
     }
     label {
         display: block;
-        margin-bottom: 16px*1.5;
+        margin-bottom: $font_size*1.5;
         width: 100%;
     }
     input {
@@ -47,15 +47,15 @@ aside {
             box-shadow: inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
         }
         &.unit {
-            border-radius: 16px/2;
+            border-radius: $font_size/2;
             line-height: 0;
-            width: 16px*3;
-            height: 16px*3;
+            width: $font_size*3;
+            height: $font_size*3;
             display:inline-flex;
             justify-content: center;
             align-items:center;
-            margin: 0 16px/2;
-            font-size: 16px*1.2;
+            margin: 0 $font_size/2;
+            font-size: $font_size*1.2;
         }
         &.red {
             display: block;

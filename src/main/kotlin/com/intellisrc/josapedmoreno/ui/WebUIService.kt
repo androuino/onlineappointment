@@ -19,14 +19,16 @@ class WebUIService : ServiciableMultiple {
 
     override fun getServices(): MutableList<Service> {
         val services: MutableList<Service> = ArrayList()
+        services.add(getAllAppointments())
         services.add(buttonActivity())
-        services.add(getAppointments())
+        services.add(getAppointmentsWithOffset())
         services.add(updateRecord())
         return services
     }
 
     companion object {
         private const val MAX_RECORD = 1000
+        private val appointment = Appointment()
 
         fun buttonActivity(): Service {
             val service = Service()
@@ -40,7 +42,34 @@ class WebUIService : ServiciableMultiple {
             return service
         }
 
-        fun getAppointments(): Service {
+        fun getAllAppointments(): Service {
+            var ok = false
+            val service = Service()
+            service.method = Service.Method.GET
+            service.path = "/appts"
+            service.allowOrigin = "*"
+            service.action = Service.Action { _, response ->
+                val apptList = arrayListOf<Map<String, Any>>()
+                try {
+                    val list = appointment.getAll(0, 0)
+                    if (list.isEmpty()) {
+                        response.status(204)
+                        Log.w("Records were not found")
+                    } else {
+                        list.forEach {
+                            apptList.add(it.toMap())
+                        }
+                        ok = true
+                    }
+                } catch (e: Exception) {
+                    Log.w("Cannot proceed with the request/query")
+                }
+                mapOf("ok" to ok, "data" to apptList)
+            }
+            return service
+        }
+
+        fun getAppointmentsWithOffset(): Service {
             var ok = false
             val service = Service()
             service.method = Service.Method.GET
@@ -87,24 +116,31 @@ class WebUIService : ServiciableMultiple {
             service.allowOrigin = "*"
             service.action = Service.Action { request, response ->
                 var ok = false
-                val id: Int
+                var id = 0
                 var err = ""
                 val gson = Gson()
                 try {
                     id = Integer.parseInt(request.params("id"))
                     val body = request.body().trim()
                     if (body.isNotEmpty()) {
-                        Appointment().updateRecord(id)
+                        if (id == 0) {
+                            Log.i("The last ID is %d", appointment.getLastID())
+                            id = appointment.getLastID() + 1
+                            val isOk = appointment.createRecord(gson.fromJson(body, AppointmentModel::class.java))
+                            return@Action mapOf("ok" to isOk)
+                        } else
+                            appointment.updateRecord(id)
                         val data = gson.fromJson(body, AppointmentModel::class.java).toMap()
                         if (data.isNotEmpty()) {
                             Log.i("Update record requested by %s", request.ip())
                             data.entries.forEach {
                                 when (it.key) {
-                                    "firstName", "lastName" -> ok = Appointment().updateName(data["firstName"].toString(), data["lastName"].toString())
-                                    "email" -> ok = Appointment().updateEmail(data["email"].toString())
-                                    "contactNumber" -> ok = Appointment().updateContactNumber(data["contactNumber"].toString())
-                                    "apptType" -> ok = Appointment().updateApptType(data["apptType"].toString())
-                                    "apptDate" -> ok = Appointment().updateApptDate(data["apptDate"].toString())
+                                    "firstName", "lastName" -> ok = appointment.updateName(data["firstName"].toString(), data["lastName"].toString())
+                                    "email" -> ok = appointment.updateEmail(data["email"].toString())
+                                    "contactNumber" -> ok = appointment.updateContactNumber(data["contactNumber"].toString())
+                                    "apptType" -> ok = appointment.updateApptType(data["apptType"].toString())
+                                    "apptDate" -> ok = appointment.updateApptDate(data["apptDate"].toString())
+                                    "pid" -> { Log.i("We don't need %s key here", it.key) }
                                     else -> Log.w("Unidentified key: %s", it.key)
                                 }
                             }
@@ -118,7 +154,7 @@ class WebUIService : ServiciableMultiple {
                     }
                 } catch (e: Appointment.IllegalApptException) {
                     response.status(400)
-                    Log.e("Invalid ID %s passed to update.", e)
+                    Log.e("Invalid ID %d passed to update.", id)
                 }
                 if (err.isNotEmpty()) {
                     Log.w("err: %e", err)

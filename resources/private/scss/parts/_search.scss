@@ -1,0 +1,27 @@
+div {
+    width: auto;
+    background: $section_bg;
+    padding-left: 5px;
+    padding-top: 10px;
+    overflow: hidden;
+    float: right;
+    .search {
+        padding: 6px;
+        margin-top: 8px;
+        font-size: $font_size;
+        border: none;
+        button {
+            float: right;
+            padding: 6px 10px;
+            margin-top: 8px;
+            margin-right: 16px;
+            background: #ddd;
+            font-size: 17px;
+            border: none;
+            cursor: pointer;
+            &:hover {
+                background: #ccc;
+            }
+        }
+    }
+}

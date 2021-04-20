@@ -6,6 +6,7 @@ import com.intellisrc.core.SysInfo
 import com.intellisrc.db.DB
 import com.intellisrc.db.Data
 import com.intellisrc.db.Database
+import com.intellisrc.db.Query
 import com.intellisrc.josapedmoreno.data.AppointmentModel
 import java.io.File
 import java.io.IOException
@@ -19,13 +20,33 @@ class Appointment {
 
     fun getAll(offset: Int, qty: Int): List<AppointmentModel> {
         val db: DB = Database.connect()
-        val rows = db.table(table).limit(qty, offset).get()
+        val rows = if (qty == 0)
+            db.table(table).get()
+        else
+            db.table(table).limit(qty, offset).get()
         db.close()
         val data = rows.toListMap()
         data.forEach {
             Log.i(it.entries.toString())
         }
         return fromData(rows)
+    }
+
+    fun createRecord(appointmentModel: AppointmentModel): Boolean {
+        val ok: Boolean
+        val db: DB = Database.connect()
+        ok = db.table(table).insert(mapOf(
+            "firstName" to appointmentModel.firstName,
+            "lastName" to appointmentModel.lastName,
+            "email" to appointmentModel.email,
+            "contactNumber" to appointmentModel.contactNumber,
+            "apptType" to appointmentModel.apptType,
+            "apptDate" to appointmentModel.apptDate)
+        )
+        db.close()
+        if (ok)
+            Log.i("Successfully added a new record.")
+        return ok
     }
 
     fun updateRecord(id : Int) {
@@ -38,34 +59,22 @@ class Appointment {
         db.close()
 
         if (row.isEmpty || row == null) {
-            Log.w("Record with id:%s doesn't exists!")
+            Log.w("Record with id: %s doesn't exists!", id)
             throw IllegalApptException()
         }
 
         // TODO: Make this object to have the actual values from db query.
         val appt = cleanInputMap(row.toMap())
-        appointmentModel = AppointmentModel(
-            appt["id"].toString().toInt(),
-            appt["firstName"].toString(),
-            appt["lastName"].toString(),
-            appt["email"].toString(),
-            appt["contactNumber"].toString(),
-            appt["apptType"].toString(),
-            appt["apptDate"].toString()
-        )
-        /*
-        appointmentModel.pid = appt["id"].toString().toInt()
-        appointmentModel.firstName = appt["firstName"].toString()
-        appointmentModel.lastName = appt["lastName"].toString()
-        appointmentModel.email = appt["email"].toString()
+        appointmentModel.pid           = appt["id"].toString().toInt()
+        appointmentModel.firstName     = appt["firstName"].toString()
+        appointmentModel.lastName      = appt["lastName"].toString()
+        appointmentModel.email         = appt["email"].toString()
         appointmentModel.contactNumber = appt["contactNumber"].toString()
-        appointmentModel.apptType = appt["apptType"].toString()
-        appointmentModel.apptDate = appt["apptDate"].toString()
-         */
+        appointmentModel.apptType      = appt["apptType"].toString()
+        appointmentModel.apptDate      = appt["apptDate"].toString()
     }
 
     private fun isValid(): Boolean {
-        Log.i("id: %d, firstName: %s", appointmentModel.pid, appointmentModel.firstName)
         return appointmentModel.pid > 0 || appointmentModel.firstName.isNotEmpty()
     }
 
@@ -237,6 +246,14 @@ class Appointment {
             Log.w("updateApptDate(): Not valid.")
         }
         return ok
+    }
+
+    fun getLastID(): Int {
+        val db: DB = Database.connect()
+        db.table(table).openIfClosed()
+        val last = db.table(table).order("id", Query.SortOrder.DESC).get()
+        db.close()
+        return last.toInt()
     }
 
     class IllegalApptException : Exception()
