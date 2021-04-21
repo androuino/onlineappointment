@@ -180,7 +180,41 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
     const table = m2d2("#table", {
-        items : []
+        items : [
+            {
+                style : ""
+            }
+        ],
+    });
+    const search = m2d2("#searchParent", {
+        input : {
+            value : "",
+            onkeyup : (ev) => {
+                if (table.items.length > 0) {
+                    table.items.forEach( li => {
+                        var fName   = li.firstName.toUpperCase();
+                        var lName   = li.lastName.toUpperCase();
+                        var email   = li.email;
+                        var cNumber = li.contactNumber;
+                        var aType   = li.appointmentType.toUpperCase();
+                        var aDate   = li.appointmentDate.toUpperCase();
+                        var filter  = ev.target.value.toUpperCase();
+                        if (fName.indexOf(filter) > -1 ||
+                            lName.indexOf(filter) > -1 ||
+                            email.indexOf(ev.target.value) > -1 ||
+                            cNumber.indexOf(ev.target.value) > -1 ||
+                            aType.indexOf(filter) > -1 ||
+                            aDate.indexOf(filter) > -1) {
+                            li.style = "display: '';";
+                        } else {
+                            li.style = "display: none;";
+                        }
+                    });
+                } else {
+                    console.log("list is empty.");
+                }
+            }
+        }
     });
     //------------ INIT --------------
     getAllAppointments();
