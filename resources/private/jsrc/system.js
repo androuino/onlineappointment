@@ -201,7 +201,6 @@ document.addEventListener("DOMContentLoaded", () => {
                                 icon: 'error',
                                 title: 'Oops...',
                                 text: 'Something went wrong!',
-                                footer: '<a href>Why do I have this issue?</a>'
                             })
                         }
                     }, () => {
@@ -210,7 +209,6 @@ document.addEventListener("DOMContentLoaded", () => {
                             icon: 'error',
                             title: 'Oops...',
                             text: 'Server error',
-                            footer: '<a href>Why do I have this issue?</a>'
                         })
                     });
                 } else {
@@ -218,7 +216,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         icon: 'error',
                         title: 'Oops...',
                         text: 'Data is empty!',
-                        footer: '<a href>Why do I have this issue?</a>'
                     })
                 }
             },
