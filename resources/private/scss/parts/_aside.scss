@@ -2,6 +2,16 @@ aside {
     margin: 0;
     width: $side_width;
     text-align: center;
+    flex: 1;
+    input, select, button {
+        font-family: 'Montserrat', sans-serif;
+        letter-spacing: -0.2px;
+        font-size: 16px;
+    }
+    div {
+        color: #BABECC;
+        text-shadow: 1px 1px 1px white;
+    }
     form {
         margin: 0 auto;
         width: 16px*20;
@@ -14,14 +24,15 @@ aside {
         border-radius: $font_size*20;
         padding: $font_size;
         background-color: #EBECF0;
-        text-shadow: 1px 1px 0 #FFF;
+        text-shadow: 1px 1px 0 white;
     }
     label {
         display: block;
         margin-bottom: $font_size*1.5;
         width: 100%;
     }
-    input {
+    input, select {
+        margin-right: 16px/2;
         box-shadow: inset 2px 2px 5px #BABECC, inset -5px -5px 10px #FFF;
         width: 100%;
         box-sizing: border-box;
@@ -32,21 +43,24 @@ aside {
             box-shadow: inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
         }
     }
-    .submitEdit {
+    button {
         color: #61677C;
         font-weight: bold;
-        width: 50%;
         box-shadow: -5px -5px 20px #FFF, 5px 5px 20px #BABECC;
         transition: all 0.2s ease-in-out;
         cursor: pointer;
         font-weight: 600;
+        width: 100%;
         &:hover {
             box-shadow: -2px -2px 5px #FFF, 2px 2px 5px #BABECC;
         }
         &:active {
             box-shadow: inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
         }
-        &.unit {
+        .icon {
+            margin-right: 16px/2;
+        }
+        &.submitEdit, &.submitDelete {
             border-radius: $font_size/2;
             line-height: 0;
             width: $font_size*3;
@@ -56,22 +70,14 @@ aside {
             align-items:center;
             margin: 0 $font_size/2;
             font-size: $font_size*1.2;
+            .icon {
+                margin-right: 0;
+            }
         }
         &.red {
             display: block;
             width: 100%;
             color: #AE1100;
-      }
-    }
-    select {
-        box-shadow: inset 2px 2px 5px #BABECC, inset -5px -5px 10px #FFF;
-        width: 100%;
-        box-sizing: border-box;
-        transition: all 0.2s ease-in-out;
-        appearance: none;
-        -webkit-appearance: none;
-        &:focus {
-            box-shadow: inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
         }
     }
 }

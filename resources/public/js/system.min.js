@@ -1,6 +1,7 @@
 var url = "/system/"
 var now = new Date();
 now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+var escapeKey = 27;
 
 document.addEventListener("DOMContentLoaded", () => {
     var dateNow = now.toISOString().slice(0,16);
@@ -11,25 +12,17 @@ document.addEventListener("DOMContentLoaded", () => {
         xhr.get(url + "appts", (res) => {
             if (res.ok) {
                 loading.show = false
-                res.data.forEach( p => {
-                    var number = "" + p.contactNumber;
+                res.data.forEach( item => {
+                    var number = "" + item.contactNumber;
                     var cNumber = number.replace(number.substring(3, 7), "****");
                     table.items.push({
-                        firstName       : p.firstName,
-                        lastName        : p.lastName,
-                        email           : p.email,
-                        contactNumber   : cNumber,
-                        appointmentType : p.apptType,
-                        appointmentDate : p.apptDate.replace("T", " "),
-                        onclick : (ev) => {
-                            form.form.pid.value = p.pid;
-                            form.form.firstName.value = p.firstName;
-                            form.form.lastName.value = p.lastName;
-                            form.form.email.value = p.email;
-                            form.form.contactNumber.value = number;
-                            form.form.apptType.value = p.apptType;
-                            form.form.apptDate.value = p.apptDate;
-                        }
+                        dataset         : { pid : item.pid },
+                        firstName       : { text : item.firstName},
+                        lastName        : { text : item.lastName},
+                        email           : { text : item.email},
+                        contactNumber   : { text : cNumber},
+                        appointmentType : { text : item.apptType},
+                        appointmentDate : { text : item.apptDate.replace("T", " ")}
                     });
                 });
             }
@@ -41,25 +34,17 @@ document.addEventListener("DOMContentLoaded", () => {
         xhr.get(url + "appts/0/0", (res) => {
             if (res.ok) {
                 loading.show = false
-                res.data.forEach( p => {
-                    var number = "" + p.contactNumber;
+                res.data.forEach( item => {
+                    var number = "" + item.contactNumber;
                     var cNumber = number.replace(number.substring(3, 7), "****");
                     table.items.push({
-                        firstName       : p.firstName,
-                        lastName        : p.lastName,
-                        email           : p.email,
-                        contactNumber   : cNumber,
-                        appointmentType : p.apptType,
-                        appointmentDate : p.apptDate.replace("T", " "),
-                        onclick : (ev) => {
-                            form.form.pid.value = p.pid;
-                            form.form.firstName.value = p.firstName;
-                            form.form.lastName.value = p.lastName;
-                            form.form.email.value = p.email;
-                            form.form.contactNumber.value = number;
-                            form.form.apptType.value = p.apptType;
-                            form.form.apptDate.value = p.apptDate;
-                        }
+                        dataset         : { pid : item.pid },
+                        firstName       : { text : item.firstName},
+                        lastName        : { text : item.lastName},
+                        email           : { text : item.email},
+                        contactNumber   : { text : cNumber},
+                        appointmentType : { text : item.apptType},
+                        appointmentDate : { text : item.apptDate.replace("T", " ")},
                     });
                 });
             }
@@ -77,6 +62,81 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
         return data;
+    }
+    function getRecord(id) {
+        loading.show = true;
+        xhr.get(url + "/get_record/" + id, (res) => {
+            if (res.ok) {
+                loading.show = false
+                let data = JSON.parse(res.data);
+                form.form.pid.value           = data.pid
+                form.form.firstName.value     = data.firstName
+                form.form.lastName.value      = data.lastName
+                form.form.email.value         = data.email
+                form.form.contactNumber.value = data.contactNumber
+                form.form.apptType.value      = data.apptType
+                form.form.apptDate.value      = data.apptDate
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Server error',
+                    footer: 'Something might have happened in server'
+                })
+            }
+        }, () => {
+            console.log("Server error");
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Server error',
+                footer: 'Something might have happened in server'
+            })
+        });
+    }
+    function deleteRecord(id) {
+        Swal.fire({
+            title: 'Do you want to delete this record?',
+            showCancelButton: true,
+            confirmButtonText: `Delete`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                xhr.delete(url + "/delete/" + id, (res) => {
+                    if (res.ok) {
+                        getAllAppointments()
+                        clear();
+                        Swal.fire('Deleted!', '', 'success')
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Server error',
+                            footer: 'Something might have happened in server'
+                        })
+                    }
+                }, () => {
+                    console.log("Server error");
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Server error',
+                        footer: 'Something might have happened in server'
+                    })
+                });
+            } else if (result.isDenied) {
+                Swal.fire('Error on deleting a record')
+            }
+        });
+    }
+    function clear() {
+        form.form.pid.value           = "0";
+        form.form.firstName.value     = "";
+        form.form.lastName.value      = "";
+        form.form.email.value         = "";
+        form.form.contactNumber.value = "";
+        form.form.apptType.value      = "";
+        form.form.apptDate.value      = "";
     }
     //------------ M2D2 --------------
     var loading = m2d2("#loading", {
@@ -123,6 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
             },
             onsubmit : (ev) => {
                 const data = getFormData(ev);
+                console.log(data);
                 if (data.firstName != "" && data.lastName != "" &&
                     data.email != "" && data.contactNumber != "" &&
                     data.apptType != "" && data.apptDate != "") { // If validation fails will return empty object
@@ -133,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             //This will redirect to user page after setting cookies.
                             //You can also hide/show parts of the page
                             //window.location.href = res.url;
-                            updateData()
+                            getAllAppointments()
                             Swal.fire('Record Saved!')
                         } else {
                             Swal.fire({
@@ -160,6 +221,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         footer: '<a href>Why do I have this issue?</a>'
                     })
                 }
+            },
+            submitDelete : {
+                onclick : (ev) => {
+                    deleteRecord(form.form.pid.value);
+                }
             }
         }
     });
@@ -167,24 +233,54 @@ document.addEventListener("DOMContentLoaded", () => {
         onclick : (ev) => {
             const item = ev.target;
             item.classList.toggle("active");
-            if (item.textContent == "Submit") {
-                item.textContent = "Submitted!";
-                fetch('/system.button')
-                    .then(response => response.json())
-                    .then(data =>
-                        console.log(data.ok)
-                    );
-           } else {
-                item.textContent = "Submit";
-            }
+            fetch('/system.button')
+                .then(response => response.json())
+                .then(data =>
+                    console.log(data.ok)
+                );
         }
     });
     const table = m2d2("#table", {
-        items : [
-            {
-                style : ""
+        template : {
+            li : {
+                dataset : { pid : "0" },
+                show : true,
+                firstName : {
+                    tagName : "span",
+                    className : "firstName",
+                    text : "First Name"
+                },
+                lastName : {
+                    tagName : "span",
+                    className : "lastName",
+                    text : "Last Name"
+                },
+                email : {
+                    tagName : "span",
+                    className : "email",
+                    text : "E-mail"
+                },
+                contactNumber : {
+                    tagName : "span",
+                    className : "contactNumber",
+                    text : "Contact Number"
+                },
+                appointmentType : {
+                    tagName : "span",
+                    className : "appointmentType",
+                    text : "Type"
+                },
+                appointmentDate : {
+                    tagName : "span",
+                    className : "appointmentDate",
+                    text : "Date & Time"
+                },
+                onclick : (ev) => {
+                    getRecord(ev.currentTarget.dataset.pid);
+                }
             }
-        ],
+        },
+        items : []
     });
     const search = m2d2("#searchParent", {
         input : {
@@ -192,12 +288,12 @@ document.addEventListener("DOMContentLoaded", () => {
             onkeyup : (ev) => {
                 if (table.items.length > 0) {
                     table.items.forEach( li => {
-                        var fName   = li.firstName.toUpperCase();
-                        var lName   = li.lastName.toUpperCase();
-                        var email   = li.email;
-                        var cNumber = li.contactNumber;
-                        var aType   = li.appointmentType.toUpperCase();
-                        var aDate   = li.appointmentDate.toUpperCase();
+                        var fName   = li.firstName.text.toUpperCase();
+                        var lName   = li.lastName.text.toUpperCase();
+                        var email   = li.email.text;
+                        var cNumber = li.contactNumber.text;
+                        var aType   = li.appointmentType.text.toUpperCase();
+                        var aDate   = li.appointmentDate.text.toUpperCase();
                         var filter  = ev.target.value.toUpperCase();
                         if (fName.indexOf(filter) > -1 ||
                             lName.indexOf(filter) > -1 ||
@@ -205,13 +301,19 @@ document.addEventListener("DOMContentLoaded", () => {
                             cNumber.indexOf(ev.target.value) > -1 ||
                             aType.indexOf(filter) > -1 ||
                             aDate.indexOf(filter) > -1) {
-                            li.style = "display: '';";
+                            li.show = true;
                         } else {
-                            li.style = "display: none;";
+                            li.show = false;
                         }
                     });
                 } else {
                     console.log("list is empty.");
+                }
+                if (ev.key == "Escape" || ev.which == escapeKey) {
+                    ev.target.value = ""
+                    table.items.forEach( li => {
+                        li.show = true;
+                    });
                 }
             }
         }

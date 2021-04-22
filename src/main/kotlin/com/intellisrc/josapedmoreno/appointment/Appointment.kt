@@ -59,11 +59,10 @@ class Appointment {
         db.close()
 
         if (row.isEmpty || row == null) {
-            Log.w("Record with id: %s doesn't exists!", id)
+            Log.w("Record with id: %d doesn't exists!", id)
             throw IllegalApptException()
         }
 
-        // TODO: Make this object to have the actual values from db query.
         val appt = cleanInputMap(row.toMap())
         appointmentModel.pid           = appt["id"].toString().toInt()
         appointmentModel.firstName     = appt["firstName"].toString()
@@ -254,6 +253,35 @@ class Appointment {
         val last = db.table(table).order("id", Query.SortOrder.DESC).get()
         db.close()
         return last.toInt()
+    }
+
+    fun getRecord(id: Int): AppointmentModel {
+        val db: DB = Database.connect()
+        val row = db.table(table).key("id").get(id)
+        db.close()
+        if (row.isEmpty || row == null) {
+            Log.w("Record with id: %d doesn't exists!", id)
+            throw IllegalApptException()
+        }
+        val appt = cleanInputMap(row.toMap())
+        appointmentModel.pid           = appt["id"].toString().toInt()
+        appointmentModel.firstName     = appt["firstName"].toString()
+        appointmentModel.lastName      = appt["lastName"].toString()
+        appointmentModel.email         = appt["email"].toString()
+        appointmentModel.contactNumber = appt["contactNumber"].toString()
+        appointmentModel.apptType      = appt["apptType"].toString()
+        appointmentModel.apptDate      = appt["apptDate"].toString()
+        return appointmentModel
+    }
+
+    fun deleteRecord(id: Int): Boolean {
+        val ok: Boolean
+        val db: DB = Database.connect()
+        ok = db.table(table).key("id").delete(id)
+        if (ok)
+            Log.i("Successfully deleted a record.")
+        db.close()
+        return ok
     }
 
     class IllegalApptException : Exception()

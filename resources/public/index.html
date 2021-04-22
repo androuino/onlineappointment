@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="css/system.css" type="text/css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" />
         <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet" type="text/css"/>
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -24,7 +25,7 @@
     </head>
     <body>
         <header>
-            <h1><img src="/img/logo-32.png" alt="Rest Demo logo" width="32" height="32"> Online Appointment</h1>
+            <h1><a href="#"><img src="/img/logo-32.png" alt="Rest Demo logo" width="32" height="32"></a> Online Appointment</h1>
         </header>
         <section id="headerList">
             <ol>
@@ -36,19 +37,8 @@
                 <li class="headerApptDate">Date & Time</li>
             </ol>
         </section>
-        <article id="table">
-            <template>
-                <ul>
-                    <li>
-                        <span class="firstName">John</span>
-                        <span class="lastName">Doe</span>
-                        <span class="email">email@email.com</span>
-                        <span class="contactNumber">012-3456-7890</span>
-                        <span class="appointmentType">Passport</span>
-                        <span class="appointmentDate">2000-01-01 00:00</span>
-                    </li>
-                </ul>
-            </template>
+        <article id="appointments">
+            <ul id="table"></ul>
         </article>
         <div id="searchParent">
             <input type="text" class="search" id="search" name="search" placeholder="Search here">
@@ -78,7 +68,8 @@
                     <input type="datetime-local" id="apptDate" name="apptDate" placeholder="yyyy-mm-dd 00:00">
                 </label>
                 <input type="hidden" name="pid" class="pid" value="">
-                <button type="submit" class="submitEdit">Submit</button>
+                <button type="submit" id="submitEdit" class="submitEdit icon ion-md-checkmark-circle">Submit</button>
+                <button type="button" id="submitDelete" class="submitDelete icon ion-md-trash">Delete</button>
             </form>
         </aside>
         <footer>

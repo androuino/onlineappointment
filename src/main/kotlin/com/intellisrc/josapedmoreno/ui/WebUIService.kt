@@ -23,6 +23,8 @@ class WebUIService : ServiciableMultiple {
         services.add(buttonActivity())
         services.add(getAppointmentsWithOffset())
         services.add(updateRecord())
+        services.add(getRecord())
+        services.add(deleteRecord())
         return services
     }
 
@@ -160,6 +162,54 @@ class WebUIService : ServiciableMultiple {
                     Log.w("err: %e", err)
                 }
                 mapOf("ok" to ok, "err" to err)
+            }
+            return service
+        }
+
+        fun getRecord(): Service {
+            val service = Service()
+            service.method = Service.Method.GET
+            service.path = "/get_record/:id"
+            service.allowOrigin = "*"
+            service.action = Service.Action { request, response ->
+                var ok = false
+                var id = 0
+                val gson = Gson()
+                var record = ""
+                try {
+                    id = Integer.parseInt(request.params("id"))
+                    record = gson.toJson(appointment.getRecord(id))
+                    ok = if (record.isNotEmpty()) {
+                        true
+                    } else {
+                        response.status(204)
+                        false
+                    }
+                } catch (e: Appointment.IllegalApptException) {
+                    response.status(400)
+                    Log.e("Invalid ID %d passed to get record.", id)
+                }
+                mapOf("ok" to ok, "data" to record)
+            }
+            return service
+        }
+
+        fun deleteRecord(): Service {
+            val service = Service()
+            service.method = Service.Method.DELETE
+            service.path = "/delete/:id"
+            service.allowOrigin = "*"
+            service.action = Service.Action { request, response ->
+                var ok = false
+                var id = 0
+                try {
+                    id = Integer.parseInt(request.params("id"))
+                    ok = appointment.deleteRecord(id)
+                } catch (e: Appointment.IllegalApptException) {
+                    response.status(400)
+                    Log.e("Invalid ID %d passed to get record.", id)
+                }
+                mapOf("ok" to ok)
             }
             return service
         }
