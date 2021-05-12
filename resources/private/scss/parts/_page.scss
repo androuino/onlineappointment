@@ -37,4 +37,16 @@ body {
     footer {
         grid-area: footer;
     }
+    body.swal2-shown > [aria-hidden="true"] {
+        filter: blur(10px);
+    }
+    body > * {
+        transition: 0.1s filter linear;
+    }
+    [class^=swal2] {
+        background-color: whitesmoke;
+        .btn-danger {
+            background-color: red;
+        }
+    }
 }

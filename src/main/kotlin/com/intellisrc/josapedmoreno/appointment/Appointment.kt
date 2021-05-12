@@ -36,8 +36,8 @@ class Appointment {
         val ok: Boolean
         val db: DB = Database.connect()
         ok = db.table(table).insert(mapOf(
-            "firstName" to appointmentModel.firstName,
             "lastName" to appointmentModel.lastName,
+            "firstName" to appointmentModel.firstName,
             "email" to appointmentModel.email,
             "contactNumber" to appointmentModel.contactNumber,
             "apptType" to appointmentModel.apptType,
@@ -65,8 +65,8 @@ class Appointment {
 
         val appt = cleanInputMap(row.toMap())
         appointmentModel.pid           = appt["id"].toString().toInt()
-        appointmentModel.firstName     = appt["firstName"].toString()
         appointmentModel.lastName      = appt["lastName"].toString()
+        appointmentModel.firstName     = appt["firstName"].toString()
         appointmentModel.email         = appt["email"].toString()
         appointmentModel.contactNumber = appt["contactNumber"].toString()
         appointmentModel.apptType      = appt["apptType"].toString()
@@ -83,7 +83,7 @@ class Appointment {
         for (inKey in input?.keys!!) {
             when (inKey) {
                 "id" -> cleanMap[inKey as String] = input[inKey].toString().toInt()
-                "firstName", "lastName" -> {
+                "lastName", "firstName" -> {
                     val name = input[inKey].toString().trim { it <= ' ' }
                         .replace("[^a-z A-Z]".toRegex(), "")
                     if (name.isNotEmpty()) {
@@ -148,8 +148,8 @@ class Appointment {
         val appt = AppointmentModel()
         val apptMap: Map<Any?, Any?> = cleanInputMap(map)
         appt.pid           = apptMap["id"].toString().toInt()
-        appt.firstName     = apptMap["firstName"].toString()
         appt.lastName      = apptMap["lastName"].toString()
+        appt.firstName     = apptMap["firstName"].toString()
         appt.email         = apptMap["email"].toString()
         appt.contactNumber = apptMap["contactNumber"].toString()
         appt.apptType      = apptMap["apptType"].toString()
@@ -167,7 +167,7 @@ class Appointment {
                 Log.w("")
             }
         }
-        return Collections.unmodifiableList(list)
+        return Collections.unmodifiableList(list).sortedBy { it.lastName }
     }
 
     fun updateName(newFirstName : String, newLastName: String): Boolean {
@@ -176,8 +176,8 @@ class Appointment {
             val db: DB = Database.connect()
             ok = db.table(table).key("id").update(mapOf("firstName" to newFirstName, "lastName" to newLastName), appointmentModel.pid)
             if (ok) {
-                appointmentModel.firstName = newFirstName
                 appointmentModel.lastName = newLastName
+                appointmentModel.firstName = newFirstName
             }
             db.close()
             Log.i("Record with id: %d updated name to: %s %s", appointmentModel.pid, newFirstName, newLastName)
@@ -265,8 +265,8 @@ class Appointment {
         }
         val appt = cleanInputMap(row.toMap())
         appointmentModel.pid           = appt["id"].toString().toInt()
-        appointmentModel.firstName     = appt["firstName"].toString()
         appointmentModel.lastName      = appt["lastName"].toString()
+        appointmentModel.firstName     = appt["firstName"].toString()
         appointmentModel.email         = appt["email"].toString()
         appointmentModel.contactNumber = appt["contactNumber"].toString()
         appointmentModel.apptType      = appt["apptType"].toString()

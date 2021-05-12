@@ -13,50 +13,46 @@
         <link rel="icon" href="/img/logo-32.png"   type='image/png'    sizes="32x32">
         <link rel="icon" href="/img/logo-64.png"   type='image/png'    sizes="64x64">
         <link rel="icon" href="/img/logo-128.png"  type='image/png'    sizes="128x128">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
         <link rel="stylesheet" href="css/system.css" type="text/css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" />
         <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet" type="text/css"/>
 
+        <!-- JavaScript Bundle with Popper -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-        <script src="js/m2d2.min.js" type="text/javascript"></script>
+        <!-- Include a polyfill for ES6 Promises (optional) for IE11 -->
+        <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>        <!-- JavaScript Bundle with Popper -->
+        <script src="js/m2d2.src.js" type="text/javascript"></script>
+        <script src="js/m2d2.xhr.src.js" type="text/javascript"></script>
         <script src="js/system.min.js" type="text/javascript"></script>
     </head>
     <body>
-        <header>
+        <header id="header">
             <h1><a href="#"><img src="/img/logo-32.png" alt="Rest Demo logo" width="32" height="32"></a> Online Appointment</h1>
         </header>
         <section id="headerList">
             <ol>
-                <li class="headerFName">First Name</li>
                 <li class="headerLName">Last Name</li>
+                <li class="headerFName">First Name</li>
                 <li class="headerEmail">E-mail</li>
                 <li class="headerContactNumber">Contact Number</li>
                 <li class="headerApptType">Type</li>
                 <li class="headerApptDate">Date & Time</li>
             </ol>
         </section>
-        <article id="appointments">
-            <ul id="table"></ul>
-        </article>
-        <div id="searchParent">
+        <article id="appointments"><ul id="userlist"></ul></article>
+        <div id="searchparent">
             <input type="text" class="search" id="search" name="search" placeholder="Search here">
         </div>
-        <aside id="appointment">
-            <form id="form">
-                <label>
-                    <input type="text" id="firstName" name="firstName" placeholder="First Name">
-                </label>
-                <label>
-                    <input type="text" id="lastName" name="lastName" placeholder="Last Name">
-                </label>
-                <label>
-                    <input type="email" id="email" name="email" placeholder="E-mail">
-                </label>
-                <label>
-                    <input type="number" id="contactNumber" name="contactNumber" placeholder="01234567890">
-                </label>
+        <aside id="formcontainer">
+            <form id="iform">
+                <label><input type="text" id="lastName" name="lastName" placeholder="Last Name"></label>
+                <label><input type="text" id="firstName" name="firstName" placeholder="First Name"></label>
+                <label><input type="email" id="email" name="email" placeholder="E-mail"></label>
+                <label><input type="number" id="contactNumber" name="contactNumber" placeholder="01234567890"></label>
                 <label>
                     <select id="apptType" name="apptType">
                         <option value="passport" selected>Passport</option>
@@ -65,11 +61,32 @@
                     </select>
                 </label>
                 <label>
-                    <input type="datetime-local" id="apptDate" name="apptDate" placeholder="yyyy-mm-dd 00:00">
+                    <input type="button" id="apptDate" data-toggle="modal" data-target="#exampleModalCenter" value="Set Date">
                 </label>
+                <div class="calendar col-sm-4 col-md-7 col-lg-4 mt-5" id="calendarcontainer">
+                    <div class="card" id="card">
+                        <h3 class="card-header" id="monthandyear">MONTH</h3>
+                        <table class="table table-bordered table-responsive-sm" id="calendar">
+                            <thead><tr id="tableheader"></tr></thead>
+                            <tbody id="calendarbody"></tbody>
+                        </table>
+                        <div class="buttonsNav">
+                            <button type="button" class="previous" id="previous">Previous</button>
+                            <button type="button" class="next" id="next">Next</button>
+                        </div>
+                        <br/>
+                        <div class="listContainer" id="listContainer">
+                            <label class="lead" for="monthList">Jump To:</label>
+                            <select class="monthList" name="month" id="monthList"></select>
+                            <label for="yearList"></label>
+                            <select class="yearList" name="year" id="yearList"></select>
+                        </div>
+                    </div>
+                </div>
                 <input type="hidden" name="pid" class="pid" value="">
-                <button type="submit" id="submitEdit" class="submitEdit icon ion-md-checkmark-circle">Submit</button>
-                <button type="button" id="submitDelete" class="submitDelete icon ion-md-trash">Delete</button>
+                <button type="submit" id="save" class="save" value="save"><i class="bi bi-save-fill"></i>Submit</button>
+                <button type="button" id="deleteButton" class="deleteButton" value="delete"><i class="bi bi-trash-fill"></i>Delete</button>
+                <button type="button" id="clearButton" class="clearButton" value="clear"><i class="bi bi-eraser"></i>Clear</button>
             </form>
         </aside>
         <footer>

@@ -1,17 +1,18 @@
 {
   "name": "josapedmoreno",
   "version": "1.0.0",
-  "description": "My portfolio",
+  "description": "My Appointments",
   "repository": {
     "type": "",
     "url": ""
   },
-  "homepage": "aju-cil.com",
+  "homepage": "myappointments.com",
   "files": [
     "public/*"
   ],
   "dependencies": {
-    "m2d2": "^1.3.6"
+    "m2d2": "^1.3.6",
+    "sweetalert2": "^9.7.2"
   },
   "main": "gulpfile.js",
   "devDependencies": {
@@ -27,6 +28,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Wadachi",
+  "author": "Josaped Moreno",
   "license": "CopyRight"
 }

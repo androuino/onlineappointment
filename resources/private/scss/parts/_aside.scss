@@ -8,13 +8,9 @@ aside {
         letter-spacing: -0.2px;
         font-size: 16px;
     }
-    div {
-        color: #BABECC;
-        text-shadow: 1px 1px 1px white;
-    }
     form {
         margin: 0 auto;
-        width: 16px*20;
+        width: $side_width;
         padding: $font_size;
     }
     input, button, select {
@@ -53,14 +49,16 @@ aside {
         width: 100%;
         &:hover {
             box-shadow: -2px -2px 5px #FFF, 2px 2px 5px #BABECC;
+            color: white;
         }
         &:active {
             box-shadow: inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
+            color: white;
         }
-        .icon {
-            margin-right: 16px/2;
+        .bi {
+            margin-right: 5px;
         }
-        &.submitEdit, &.submitDelete {
+        &.save, &.deleteButton, &.clearButton, &.selectMonth, &.selectYear {
             border-radius: $font_size/2;
             line-height: 0;
             width: $font_size*3;
@@ -70,14 +68,62 @@ aside {
             align-items:center;
             margin: 0 $font_size/2;
             font-size: $font_size*1.2;
-            .icon {
-                margin-right: 0;
-            }
+        }
+        &.apptDate {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        &.deleteButton {
+            background: #AE1100;
         }
         &.red {
             display: block;
             width: 100%;
             color: #AE1100;
+        }
+        &:disabled {
+            background-color: #cccccc;
+            color: #666666;
+        }
+    }
+    #calendarcontainer {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        margin-bottom: 28px;
+        .buttonsNav {
+            display: table;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            .previous {
+                display: table-cell;
+                width: auto;
+            }
+            .next {
+                display: table-cell;
+                width: auto;
+            }
+        }
+        .listContainer {
+            display: table;
+            margin: 0;
+            padding: 12px;
+            margin-bottom: 12px;
+            background-color: white;
+            label {
+                display: table-cell;
+                width: auto;
+                text-align: left;
+            }
+            .monthList {
+                display: table-cell;
+                width: 100%;
+            }
+            .yearList {
+                display: table-cell;
+                width: 100%;
+            }
         }
     }
 }
