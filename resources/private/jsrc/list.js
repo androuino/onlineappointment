@@ -75,8 +75,8 @@ m2d2.ready($ => {
                     iform.lastName.value         = data.lastName;
                     iform.firstName.value        = data.firstName;
                     iform.email.value            = data.email;
-                    iform.contactNumber.value    = data.contactNumber;
-                    iform.apptType.value         = data.apptType;
+                    iform.contactnumber.value    = data.contactNumber;
+                    iform.appttype.value         = data.apptType;
                     iform.deleteButton.disabled  = false;
                 } else {
                     swalWithBootstrapButtons.fire(
@@ -107,9 +107,9 @@ m2d2.ready($ => {
                             lastName        : { text : item.lastName },
                             firstName       : { text : item.firstName },
                             email           : { text : item.email },
-                            contactNumber   : { text : cNumber },
+                            contactnumber   : { text : cNumber },
                             appointmentType : { text : item.apptType },
-                            appointmentDate : { text : item.apptDate.replace("T", " ") }
+                            appointmentDate : { text : item.apptdate.replace("T", " ") }
                         });
                     })
                 }

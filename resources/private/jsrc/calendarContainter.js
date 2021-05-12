@@ -2,39 +2,39 @@ m2d2.ready($ => {
     var calendar = $(calendarcontainer, {
         show : false,
         daysInMonth : function(month, year) {
-            return 32 - new Date(month, year, 32).getDate();
+            return 32 - new Date(year, month, 32).getDate();
         },
         showCalendar : function(month, year) {
-            tableHeader.items.clear();
-            daysList.forEach((day) => {
-                tableHeader.items.push({
-                    text : day
-                });
-            })
-            tableHeader.items.forEach((day) => {
-                if (day.text === "SUN") {
-                    day.style = "background-color: red; color: white;"
-                } else if (day.text === "SAT") {
-                    day.style = "background-color: blue; color: white;"
+            if (tableHeader.items.length === 0) {
+                tableHeader.items.clear();
+                daysList.forEach((day) => {
+                    tableHeader.items.push({
+                        text : day
+                    });
+                })
+                tableHeader.items.forEach((day) => {
+                    if (day.text === "SUN") {
+                        day.style = "background-color: red; color: white;"
+                    } else if (day.text === "SAT") {
+                        day.style = "background-color: blue; color: white;"
+                    }
+                })
+                months.items.clear();
+                monthsList.forEach((month) => {
+                    months.items.push({
+                        option : { text : month }
+                    });
+                })
+                years.items.clear();
+                for (let year = yearNow; year < 2101; year++) {
+                    years.items.push({
+                        option : { text : year }
+                    });
                 }
-            })
-            months.items.clear();
-            monthsList.forEach((month) => {
-                months.items.push({
-                    option : { text : month }
-                });
-            })
-            years.items.clear();
-            for (let year = yearNow; year < 2101; year++) {
-                years.items.push({
-                    option : { text : year }
-                });
             }
             // clear the table body
-            for (var i = tableBody.rows.length - 1; i > 0; i--) {
-                tableBody.deleteRow(i);
-            }
-            let firstDay = (new Date(month, year)).getDay();
+            tableBody.innerHTML = "";
+            let firstDay = (new Date(year, month)).getDay();
             // filling data about month and in the page vio DOM.
             monthAndYear.text = monthsList[month] + " " + year;
             getSelectedYear.selectedIndex = year;
@@ -62,9 +62,14 @@ m2d2.ready($ => {
                         tr.appendChild(td);
                         date++;
                     }
-                    tableBody.appendChild(tr);
                 }
+                tableBody.appendChild(tr);
             }
+        },
+        onJump : function() {
+            currentMonth = parseInt(getSelectedMonth.selectedIndex);
+            currentYear = parseInt(getSelectedYear.selectedIndex);
+            calendar.showCalendar(currentMonth, currentYear);
         }
     });
     var tableHeader = $(tableheader, {
@@ -92,11 +97,15 @@ m2d2.ready($ => {
     });
     var getSelectedYear = $(yearList, {
         selectedIndex : 0,
-        value : ""
+        onchange : function() {
+            calendar.onJump();
+        }
     });
     var getSelectedMonth = $(monthList, {
         selectedIndex : 0,
-        value : ""
+        onchange : function() {
+            calendar.onJump();
+        }
     });
     var monthAndYear = $(monthandyear, {
         text : ""
@@ -141,7 +150,6 @@ m2d2.ready($ => {
             onclick : function(ev) {
                 if (calendar.show) {
                     calendar.show = false;
-                    months.items.clear();
                 } else {
                     calendar.show = true;
                     calendar.showCalendar(currentMonth, currentYear);
@@ -192,12 +200,16 @@ m2d2.ready($ => {
         },
         previous : {
             onclick : function(ev) {
-                alert("Me");
+                currentYear = (currentMonth === 0) ? currentYear - 1 : currentYear;
+                currentMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
+                calendar.showCalendar(currentMonth, currentYear);
             }
         },
         next : {
             onclick : function(ev) {
-                alert("Me");
+                currentYear = (currentMonth === 11) ? currentYear + 1 : currentYear;
+                currentMonth = (currentMonth + 1) % 12;
+                calendar.showCalendar(currentMonth, currentYear);
             }
         },
         getFormData : function(ev) {
@@ -218,13 +230,13 @@ m2d2.ready($ => {
                 if (res.ok) {
                     loading.show = false;
                     let data = JSON.parse(res.data);
-                    this.pid.value           = data.pid;
-                    this.lastName.value      = data.lastName;
-                    this.firstName.value     = data.firstName;
-                    this.email.value         = data.email;
-                    this.contactNumber.value = data.contactNumber;
-                    this.apptType.value      = data.apptType;
-                    this.deleteButton.disabled = false;
+                    this.pid.value              = data.pid;
+                    this.lastName.value         = data.lastName;
+                    this.firstName.value        = data.firstName;
+                    this.email.value            = data.email;
+                    this.contactNumber.value    = data.contactNumber;
+                    this.apptType.value         = data.apptType;
+                    this.deleteButton.disabled  = false;
                 } else {
                     swalWithBootstrapButtons.fire(
                         'Oops...',
