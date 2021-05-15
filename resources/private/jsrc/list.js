@@ -75,8 +75,8 @@ m2d2.ready($ => {
                     iform.lastName.value         = data.lastName;
                     iform.firstName.value        = data.firstName;
                     iform.email.value            = data.email;
-                    iform.contactnumber.value    = data.contactNumber;
-                    iform.appttype.value         = data.apptType;
+                    iform.contactNumber.value    = data.contactNumber;
+                    iform.apptType.value         = data.apptType;
                     iform.deleteButton.disabled  = false;
                 } else {
                     swalWithBootstrapButtons.fire(

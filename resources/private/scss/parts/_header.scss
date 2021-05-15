@@ -1,9 +1,23 @@
 header {
+    margin: 0;
+    padding: 0;
     color: $highlight;
     background-color: $background_light;
     border-bottom: 1px solid $highlight;
     line-height: $bar_height;
     font-weight: bold;
     font-size: 120%;
-    text-align: center;
+    h1 {
+        display: inline-block;
+    }
+    div {
+        margin: 0;
+        padding: 0;
+        margin-top: 4px;
+        margin-right: 4px;
+        display: inline-block;
+        float: right;
+        vertical-align: middle;
+        background-color: $background_light;
+    }
 }

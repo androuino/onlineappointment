@@ -1,6 +1,5 @@
 m2d2.ready($ => {
     var calendar = $(calendarcontainer, {
-        show : false,
         daysInMonth : function(month, year) {
             return 32 - new Date(year, month, 32).getDate();
         },
@@ -58,8 +57,8 @@ m2d2.ready($ => {
                         }
                         td.textContent = date;
                         td.onclick = function() {
-                            //Swal.fire(td.textContent);
-                            swalWithBootstrapButtons.fire(td.textContent);
+                            Swal.fire(td.textContent);
+                            //swalWithBootstrapButtons.fire(td.textContent);
                         }
                         tr.appendChild(td);
                         date++;
@@ -148,17 +147,6 @@ m2d2.ready($ => {
         },
         apptType : {
             value : ""
-        },
-        apptDate : {
-            value : "Set Date",
-            onclick : function(ev) {
-                if (calendar.show) {
-                    calendar.show = false;
-                } else {
-                    calendar.show = true;
-                    calendar.showCalendar(currentMonth, currentYear);
-                }
-            }
         },
         onsubmit : function(ev) {
             const data = getFormData(ev);
@@ -298,6 +286,9 @@ m2d2.ready($ => {
                 }
             });
         },
+        onload : function() {
+            calendar.showCalendar(currentMonth, currentYear);
+        },
         clear : function() {
             this.pid.value              = "";
             this.lastName.value         = "";
@@ -310,8 +301,4 @@ m2d2.ready($ => {
             calendar.show               = false;
         }
     });
-    function onTdClick() {
-        //alert("Alert me!");
-        console.log("I was clicked");
-    }
 });
