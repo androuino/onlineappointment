@@ -4,42 +4,42 @@ m2d2.ready($ => {
             dataset : { pid : "0" },
             show : true,
             li : {
-            lastName : {
-                tagName : "span",
-                className : "lastName",
-                text : "Last Name"
-            },
-            firstName : {
-                tagName : "span",
-                className : "firstName",
-                text : "First Name"
-            },
-            email : {
-                tagName : "span",
-                className : "email",
-                text : "E-mail"
-            },
-            contactNumber : {
-                tagName : "span",
-                className : "contactNumber",
-                text : "Contact Number"
-            },
-            appointmentType : {
-                tagName : "span",
-                className : "appointmentType",
-                text : "Type"
-            },
-            appointmentDate : {
-                tagName : "span",
-                className : "appointmentDate",
-                text : "Date & Time"
-            },
-            onclick : function(ev) {
-                getRecord(ev.currentTarget.dataset.pid);
-                if (!calendar.show) {
-                    calendar.show = true;
+                lastName : {
+                    tagName : "span",
+                    className : "lastName",
+                    text : "Last Name"
+                },
+                firstName : {
+                    tagName : "span",
+                    className : "firstName",
+                    text : "First Name"
+                },
+                email : {
+                    tagName : "span",
+                    className : "email",
+                    text : "E-mail"
+                },
+                contactNumber : {
+                    tagName : "span",
+                    className : "contactNumber",
+                    text : "Contact Number"
+                },
+                appointmentType : {
+                    tagName : "span",
+                    className : "appointmentType",
+                    text : "Type"
+                },
+                appointmentDate : {
+                    tagName : "span",
+                    className : "appointmentDate",
+                    text : "Date & Time"
+                },
+                onclick : function(ev) {
+                    getRecord(ev.currentTarget.dataset.pid);
+                    if (!calendar.show) {
+                        calendar.show = true;
+                    }
                 }
-            }
             }
         },
         getAllAppointments : function() {

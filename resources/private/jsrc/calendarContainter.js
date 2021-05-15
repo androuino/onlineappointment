@@ -33,7 +33,7 @@ m2d2.ready($ => {
                 }
             }
             // clear the table body
-            tableBody.innerHTML = "";
+            tableBody.items.clear();
             let firstDay = (new Date(year, month)).getDay();
             // filling data about month and in the page vio DOM.
             monthAndYear.text = monthsList[month] + " " + year;
@@ -42,28 +42,30 @@ m2d2.ready($ => {
             // creating cells
             let date = 1;
             for (let i = 0; i < 6; i++) {
-                let tr = document.createElement("tr");
+                let tr = $.newNode("tr");
                 // create table rows
                 for (let j = 0; j < 7; j++) {
                     if (i === 0 && j < firstDay) {
-                        let td = document.createElement("td");
-                        let text = document.createTextNode("");
-                        td.appendChild(text);
+                        let td = $.newNode("td");
+                        td.textContent = "";
                         tr.appendChild(td);
                     } else if (date > this.daysInMonth(month, year)) {
                         break;
                     } else {
-                        let td = document.createElement("td");
+                        let td = $.newNode("td");
                         if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
                             td.classList.add("bg-info");
                         }
-                        let txt = document.createTextNode(date);
-                        td.appendChild(txt);
+                        td.textContent = date;
+                        td.onclick = function() {
+                            //Swal.fire(td.textContent);
+                            swalWithBootstrapButtons.fire(td.textContent);
+                        }
                         tr.appendChild(td);
                         date++;
                     }
                 }
-                tableBody.appendChild(tr);
+                tableBody.items.push(tr);
             }
         },
         onJump : function() {
@@ -79,7 +81,9 @@ m2d2.ready($ => {
             }
         }
     });
-    var tableBody = document.getElementById("calendarbody");
+    var tableBody = $(calendarbody, {
+        template : {}
+    });
     var months = $(monthList, {
         template : {
             option : {
@@ -306,5 +310,8 @@ m2d2.ready($ => {
             calendar.show               = false;
         }
     });
-
+    function onTdClick() {
+        //alert("Alert me!");
+        console.log("I was clicked");
+    }
 });
