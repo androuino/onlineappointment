@@ -36,7 +36,7 @@ class AuthService : ServiciableAuth {
      * @return path as string
      */
     override fun getPath(): String {
-        return String.format("/api/v%d/auth", version)
+        return "/auth"
     }
 
     override fun getLoginPath(): String {
@@ -110,7 +110,6 @@ class AuthService : ServiciableAuth {
     }
 
     companion object {
-        const val version = 1
         private const val authTable = "auth"
 
         /**

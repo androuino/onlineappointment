@@ -1,0 +1,26 @@
+#appointmentsview {
+    margin: 0;
+    padding: 0;
+    background-color: $background;
+    display: grid;
+    grid-gap: 0;
+    grid-template-columns: $article_width $article_width $side_width;
+    grid-template-rows: $section_height calc(100vh - (#{$section_height} * 4)) $section_height;
+    grid-template-areas: "headerlist    headerlist   formcontainer"
+                         "appointments  appointments formcontainer"
+                         "searchparent  searchparent formcontainer";
+    #headerlist {
+        grid-area: headerlist;
+    }
+    #appointments {
+        grid-area: appointments;
+        overflow: auto;
+    }
+    #formcontainer {
+        grid-area: formcontainer;
+        overflow: auto;
+    }
+    #searchparent {
+        grid-area: searchparent;
+    }
+}

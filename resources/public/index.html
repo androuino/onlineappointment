@@ -35,61 +35,100 @@
             <h1><a href="#"><img src="/img/logo-32.png" alt="Rest Demo logo" width="32" height="32"></a> Online Appointment</h1>
             <div class="fa fa-cog fa-2x" aria-hidden="true"></div>
         </header>
-        <section id="headerList">
-            <ol>
-                <li class="headerLName">Last Name</li>
-                <li class="headerFName">First Name</li>
-                <li class="headerEmail">E-mail</li>
-                <li class="headerContactNumber">Contact Number</li>
-                <li class="headerApptType">Type</li>
-                <li class="headerApptDate">Date & Time</li>
-            </ol>
-        </section>
-        <article id="appointments"><ul id="userlist"></ul></article>
-        <div id="searchparent">
-            <input type="text" class="search" id="search" name="search" placeholder="Search here">
-        </div>
-        <aside id="formcontainer">
-            <form id="iform">
-                <label><input type="text" id="lastName" name="lastName" placeholder="Last Name"></label>
-                <label><input type="text" id="firstName" name="firstName" placeholder="First Name"></label>
-                <label><input type="email" id="email" name="email" placeholder="E-mail"></label>
-                <label><input type="number" id="contactNumber" name="contactNumber" placeholder="01234567890"></label>
+        <section id="logincontainer">
+            <form id="loginform">
+                <div class="segment">
+                    <h1>Sign up</h1>
+                </div>
+
                 <label>
-                    <select id="apptType" name="apptType">
-                        <option value="passport" selected>Passport</option>
-                        <option value="visa">Visa</option>
-                        <option value="rob">ROB</option>
-                    </select>
+                    <input type="text" placeholder="Email Address"/>
                 </label>
-                <div class="calendar col-sm-4 col-md-7 col-lg-4 mt-5" id="calendarcontainer">
-                    <div class="card" id="card">
-                        <h3 class="card-header" id="monthandyear">MONTH</h3>
-                        <table class="table table-bordered table-responsive-sm" id="calendar">
-                            <thead><tr id="tableheader"></tr></thead>
-                            <tbody id="calendarbody"></tbody>
-                        </table>
-                        <div class="buttonsNav">
-                            <button type="button" class="previous" id="previous">Previous</button>
-                            <button type="button" class="next" id="next">Next</button>
-                        </div>
-                        <br/>
-                        <div class="listContainer" id="listContainer">
-                            <label class="lead" for="monthList">Jump To:</label>
-                            <select class="monthList" name="month" id="monthList"></select>
-                            <label for="yearList"></label>
-                            <select class="yearList" name="year" id="yearList"></select>
+                <label>
+                    <input type="password" placeholder="Password"/>
+                </label>
+                <button class="red" type="button"><i class="fa fa-lock"></i> Log in</button>
+
+                <div class="segment">
+                    <button class="unit" type="button"><i class="fa fa-arrow-left"></i></button>
+                    <button class="unit" type="button"><i class="fa fa-bookmark"></i></button>
+                    <button class="unit" type="button"><i class="fa fa-cog"></i></button>
+                </div>
+
+                <div class="input-group">
+                    <label>
+                        <input type="text" placeholder="Email Address"/>
+                    </label>
+                    <button class="unit" type="button"><i class="fa fa-search"></i></button>
+                </div>
+            </form>
+        </section>
+        <section id="appointmentsview">
+            <section id="headerlist">
+                <ol>
+                    <li class="headerLName">Last Name</li>
+                    <li class="headerFName">First Name</li>
+                    <li class="headerEmail">E-mail</li>
+                    <li class="headerContactNumber">Contact Number</li>
+                    <li class="headerApptType">Type</li>
+                    <li class="headerApptDate">Date & Time</li>
+                </ol>
+            </section>
+            <article id="appointments"><ul id="userlist"></ul></article>
+            <div id="searchparent">
+                <input type="text" class="search" id="search" name="search" placeholder="Search here">
+            </div>
+            <aside id="formcontainer">
+                <form id="iform">
+                    <label><input type="text" id="lastName" name="lastName" placeholder="Last Name"></label>
+                    <label><input type="text" id="firstName" name="firstName" placeholder="First Name"></label>
+                    <label><input type="email" id="email" name="email" placeholder="E-mail"></label>
+                    <label><input type="number" id="contactNumber" name="contactNumber" placeholder="01234567890"></label>
+                    <label>
+                        <select id="apptType" name="apptType">
+                            <option value="passport" selected>Passport</option>
+                            <option value="visa">Visa</option>
+                            <option value="rob">ROB</option>
+                        </select>
+                    </label>
+                    <div class="calendar col-sm-4 col-md-7 col-lg-4 mt-5" id="calendarcontainer">
+                        <div class="card" id="card">
+                            <h3 class="card-header" id="monthandyear">MONTH</h3>
+                            <table class="table table-bordered table-responsive-sm" id="calendar">
+                                <thead><tr id="tableheader"></tr></thead>
+                                <tbody id="calendarbody"></tbody>
+                            </table>
+                            <div class="buttonsNav">
+                                <button type="button" class="previous" id="previous">Previous</button>
+                                <button type="button" class="next" id="next">Next</button>
+                            </div>
+                            <br/>
+                            <div class="listContainer" id="listContainer">
+                                <label class="lead" for="monthList">Jump To:</label>
+                                <select class="monthList" name="month" id="monthList"></select>
+                                <label for="yearList"></label>
+                                <select class="yearList" name="year" id="yearList"></select>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <input type="hidden" name="pid" class="pid" value="">
-                <button type="submit" id="save" class="save" value="save"><i class="bi bi-save-fill"></i>Submit</button>
-                <button type="button" id="deleteButton" class="deleteButton" value="delete"><i class="bi bi-trash-fill"></i>Delete</button>
-                <button type="button" id="clearButton" class="clearButton" value="clear"><i class="bi bi-eraser"></i>Clear</button>
-            </form>
-        </aside>
+                    <input type="hidden" name="pid" class="pid" value="">
+                    <button type="submit" id="save" class="save" value="save"><i class="bi bi-save-fill"></i>Submit</button>
+                    <button type="button" id="deleteButton" class="deleteButton" value="delete"><i class="bi bi-trash-fill"></i>Delete</button>
+                    <button type="button" id="clearButton" class="clearButton" value="clear"><i class="bi bi-eraser"></i>Clear</button>
+                </form>
+            </aside>
+        </section>
         <footer>
         </footer>
         <section id="loading"><div>Loading... please wait.</div></section>
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="/__/firebase/8.6.1/firebase-app.js"></script>
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+             https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="/__/firebase/8.6.1/firebase-analytics.js"></script>
+
+        <!-- Initialize Firebase -->
+        <script src="/__/firebase/init.js"></script>
     </body>
 </html>

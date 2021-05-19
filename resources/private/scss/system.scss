@@ -1,13 +1,15 @@
+@import 'parts/reset';
 @import 'parts/calc';
 @import 'parts/colors';
 @import 'parts/common';
-@import 'parts/elements';
-@import 'parts/footer';
-@import 'parts/header';
-@import 'parts/page';
 @import 'parts/scroll';
-@import 'parts/article';
-@import 'parts/aside';
-@import 'parts/section';
-@import 'parts/search';
-@import 'parts/reset';
+@import 'parts/page';
+@import 'parts/appointmentsview';
+@import 'parts/header';
+@import 'parts/logincontainer';
+@import 'parts/headerlist';
+@import 'parts/appointments';
+@import 'parts/searchparent';
+@import 'parts/formcontainer';
+@import 'parts/footer';
+

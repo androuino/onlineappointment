@@ -5,12 +5,10 @@ body {
     display: grid;
     grid-gap: 0;
     grid-template-columns: $article_width $article_width $side_width;
-    grid-template-rows: $bar_height $section_height calc(100vh - (#{$bar_height} * 2 + (#{$section_height} * 2))) #{$section_height} $bar_height;
-    grid-template-areas: "header  header  header"
-                         "section section aside"
-                         "article article aside"
-                         "search  search  aside"
-                         "footer  footer  footer";
+    grid-template-rows: $bar_height calc(100vh - (#{$bar_height} * 2)) $bar_height;
+    grid-template-areas: "header         header         header"
+                         "logincontainer logincontainer logincontainer"
+                         "footer         footer         footer";
     /*
     grid-template-rows: $bar_height $section_height calc(100vh - (#{$bar_height} * 2)) $bar_height;
     grid-template-areas: "header header header"
@@ -20,19 +18,12 @@ body {
     header {
         grid-area: header;
     }
-    section {
-        grid-area: section;
-    }
-    article {
-        grid-area: article;
+    #logincontainer {
+        grid-area: logincontainer;
         overflow: auto;
     }
-    div {
-        grid-area: search;
-    }
-    aside {
-        grid-area: aside;
-        overflow: auto;
+    #appointmentsview {
+        grid-area: logincontainer;
     }
     footer {
         grid-area: footer;
@@ -44,7 +35,6 @@ body {
         transition: 0.1s filter linear;
     }
     [class^=swal2] {
-        background-color: whitesmoke;
         .btn-danger {
             background-color: red;
         }
