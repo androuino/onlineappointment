@@ -37,8 +37,8 @@ class Main : SysService() {
             port = Integer.parseInt(args.poll())
         webService.port = port
         webService.setResources(SysInfo.getFile("resources", "public"))
-        webService.addService(AuthService())
-        webService.addService(WebUIService())
+        webService.add(AuthService())
+        webService.add(WebUIService())
         webService.start(true)
     }
 

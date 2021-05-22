@@ -13,6 +13,7 @@ m2d2.ready($ => {
                 alert("Successful!");
                 logincontainer.show = false;
                 appointmentsview.show = true;
+                userlist.getAllAppointments();
             }, function() { // unsuccessful
                 alert("Unsuccessful!")
             });

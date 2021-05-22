@@ -117,7 +117,7 @@ m2d2.ready($ => {
         },
         onload : function() {
             //------------ INIT --------------
-            this.getAllAppointments();
+            //this.getAllAppointments();
         }
     });
 });
