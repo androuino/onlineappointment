@@ -1,24 +1,24 @@
 #m2d2-alert {
-  .m2d2-alert-front {
-    min-width: 400px;
-    min-height: 100px;
-    background-color: $background;
-    border: 1px solid $highlight;
-    outline: 2px solid $background;
-    color: white;
-    padding: $dbl_padding;
-    box-shadow: 0 0 5px 1px #000;
-    margin-top: -200px;
-    display : flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    .m2d2-alert-front {
+        min-width: 400px;
+        min-height: 100px;
+        background-color: $background;
+        border: 1px solid $highlight;
+        outline: 2px solid $background;
+        color: white;
+        padding: $dbl_padding;
+        box-shadow: 0 0 5px 1px #000;
+        margin-top: -200px;
+        display : flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
 
-    &.question::before {
-      color: $blue;
-      font-size: 200%;
-      margin: $dbl_padding;
-    }
+      &.question::before {
+          color: $blue;
+          font-size: 200%;
+          margin: $dbl_padding;
+      }
     &.ok::before {
       color: $green;
       font-size: 200%;
