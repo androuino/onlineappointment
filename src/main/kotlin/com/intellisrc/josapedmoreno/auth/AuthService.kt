@@ -124,6 +124,7 @@ class AuthService : ServiciableAuth {
             return Allow { request ->
                 if (request.session() != null) {
                     try {
+                        Log.i("Request from ${request?.ip()}")
                         request?.ip() == request?.session()?.attribute("ip") && Level.valueOf(
                             request?.session()?.attribute<Any>("level")?.toString()?.toUpperCase()!!
                         ) == Level.ADMIN

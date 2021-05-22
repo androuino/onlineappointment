@@ -5,6 +5,7 @@ import com.intellisrc.core.SysInfo
 import com.intellisrc.core.SysService
 import com.intellisrc.db.Database
 import com.intellisrc.josapedmoreno.appointment.Appointment
+import com.intellisrc.josapedmoreno.auth.AuthService
 import com.intellisrc.josapedmoreno.ui.WebUIService
 import com.intellisrc.web.WebService
 
@@ -36,7 +37,9 @@ class Main : SysService() {
             port = Integer.parseInt(args.poll())
         webService.port = port
         webService.setResources(SysInfo.getFile("resources", "public"))
-        webService.add(WebUIService()).start(true)
+        webService.addService(AuthService())
+        webService.addService(WebUIService())
+        webService.start(true)
     }
 
     override fun onStop() {

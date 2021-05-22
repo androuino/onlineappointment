@@ -1,130 +1,174 @@
 #formcontainer {
     margin: 0;
+    padding: 0;
     width: $side_width;
     text-align: center;
-    flex: 1;
-    input, select, button {
-        font-family: 'Montserrat', sans-serif;
-        letter-spacing: -0.2px;
-        font-size: 16px;
-    }
-    form {
-        margin: 0 auto;
-        width: $side_width;
-        padding: $font_size;
-    }
-    input, button, select {
-        border: 0;
-        outline: 0;
-        font-size: $font_size;
-        border-radius: $font_size*20;
-        padding: $font_size;
-        background-color: #EBECF0;
-        text-shadow: 1px 1px 0 white;
-    }
-    label {
-        display: block;
-        margin-bottom: 8px;
-        width: 100%;
-    }
-    input, select {
-        margin-right: 16px/2;
-        box-shadow: inset 2px 2px 5px #BABECC, inset -5px -5px 10px #FFF;
-        width: 100%;
-        box-sizing: border-box;
-        transition: all 0.2s ease-in-out;
-        appearance: none;
-        -webkit-appearance: none;
-        &:focus {
-            box-shadow: inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
-        }
-    }
-    button {
-        color: #61677C;
-        font-weight: bold;
-        box-shadow: -5px -5px 20px #FFF, 5px 5px 20px #BABECC;
-        transition: all 0.2s ease-in-out;
-        cursor: pointer;
-        font-weight: 600;
-        width: 100%;
-        &:hover {
-            box-shadow: -2px -2px 5px #FFF, 2px 2px 5px #BABECC;
-            color: white;
-        }
-        &:active {
-            box-shadow: inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
-            color: white;
-        }
-        .bi {
-            margin-right: 5px;
-        }
-        &.save, &.deleteButton, &.clearButton, &.selectMonth, &.selectYear {
-            border-radius: $font_size/2;
-            line-height: 0;
-            width: $font_size*3;
-            height: $font_size*3;
-            display:inline-flex;
-            justify-content: center;
-            align-items:center;
-            margin: 0 $font_size/2;
-            font-size: $font_size*1.2;
-        }
-        &.apptDate {
-            margin-top: 0;
-            margin-bottom: 0;
-        }
-        &.deleteButton {
-            background: #AE1100;
-        }
-        &.red {
-            display: block;
-            width: 100%;
-            color: #AE1100;
-        }
-        &:disabled {
-            background-color: #cccccc;
-            color: #666666;
-        }
-    }
-    #calendarcontainer {
+    #iform {
         margin: 0;
         padding: 0;
         width: 100%;
-        margin-top: 0 !important;
-        margin-bottom: 24px;
-        .buttonsNav {
-            display: table;
-            margin: 0;
-            padding: 0;
-            background-color: white;
-            .previous {
-                display: table-cell;
-                width: auto;
-            }
-            .next {
-                display: table-cell;
-                width: auto;
+        padding: $font_size;
+        input, select {
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: -0.2px;
+            font-size: 16px;
+        }
+        #deletebutton, #clearbutton, #previous, #next {
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: -0.2px;
+            font-size: $ruler;
+        }
+        #buttonsnav, #listcontainer {
+            color: $color_shadow;
+            text-shadow: 1px 1px 1px $color_white;
+        }
+        #bottombuttonscontainer {
+            display: flex;
+            padding: $ruler*2 0;
+            text-align: center;
+        }
+        #save, #deletebutton, #clearbutton {
+            width: 34%;
+            margin: 4px;
+        }
+        #save, #deletebutton, #clearbutton, #previous, #next, input {
+            border: 0;
+            outline: 0;
+            font-size: $ruler;
+            border-radius: $ruler;
+            padding: $ruler;
+            background-color:$color_bg;
+            text-shadow: 1px 1px 0 $color_white;
+        }
+        label {
+            display: block;
+            margin-bottom: 4px;
+            width: 100%;
+        }
+        input, #apptType {
+            border: 0;
+            outline: 0;
+            font-size: $font_size;
+            border-radius: $font_size*20;
+            padding: $font_size;
+            background-color: #EBECF0;
+            text-shadow: 1px 1px 0 white;
+            margin-right: $ruler/2;
+            box-shadow:  inset 2px 2px 5px $color_shadow, inset -5px -5px 10px $color_white;
+            width: 100%;
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out;
+            appearance: none;
+            -webkit-appearance: none;
+            &:focus {
+                box-shadow: inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
             }
         }
-        .listContainer {
-            display: table;
+        select {
+            border: 0;
+            outline: 0;
+            font-size: $font_size;
+            border-radius: $font_size*20;
+            padding: $font_size;
+            background-color: #EBECF0;
+            text-shadow: 1px 1px 0 white;
+            margin-right: $ruler/2;
+            box-shadow:  inset 2px 2px 5px $color_shadow, inset -5px -5px 10px $color_white;
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out;
+            appearance: none;
+            -webkit-appearance: none;
+            &:focus {
+                box-shadow: inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
+            }
+        }
+        #save, #deletebutton, #clearbutton, #previous, #next {
+            color: #61677C;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            font-weight: 600;
+            .icon {
+                margin-right: $ruler/2;
+            }
+            &.selectMonth, &.selectYear, &.unit {
+                border-radius: $ruler/2;
+                line-height: 0;
+                width: $font_size*3;
+                height: $font_size*3;
+                display: inline-flex;
+                justify-content: center;
+                align-items:center;
+                margin: 0 $font_size/2;
+                font-size: $ruler*1.2;
+                    .icon {
+                    margin-right: 0;
+                }
+            }
+            &.red {
+                display: block;
+                width: 100%;
+                color: $color_red;
+            }
+            &.apptDate {
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+            &.deletebutton {
+                background: #AE1100;
+            }
+            &:disabled {
+                background-color: #cccccc;
+                color: #666666;
+            }
+        }
+        #buttonsnav {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            background-color: white;
+            width: 100%;
+        }
+        #previous {
+            display: block;
+            width: 50%;
+            margin-left: 4px;
+        }
+        #next {
+            display: block;
+            width: 50%;
+            margin-left: 4px;
+            margin-right: 4px;
+        }
+        #calendarcontainer {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            margin-top: 0 !important;
+            margin-bottom: 8px;
+        }
+        #listcontainer {
+            display: flex;
             margin: 0;
             padding: 12px;
             margin-bottom: 12px;
             background-color: white;
-            label {
-                display: table-cell;
-                width: auto;
-                text-align: left;
-            }
-            .monthList {
-                display: table-cell;
-                width: 100%;
-            }
-            .yearList {
-                display: table-cell;
-                width: 100%;
-            }
+            width: 100%;
+            vertical-align: middle;
+        }
+        #jumpto {
+            display: block;
+            width: 20%;
+            text-align: left;
+            margin-right: 4px;
+        }
+        #monthList {
+            display: block;
+            width: 65%;
+        }
+        #yearList {
+            display: block;
+            width: 15%;
         }
     }
 }

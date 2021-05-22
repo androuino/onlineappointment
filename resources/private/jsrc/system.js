@@ -1,3 +1,4 @@
+var auth = "/auth/"
 var url = "/system/";
 var today = new Date();
 var currentMonth = today.getMonth();

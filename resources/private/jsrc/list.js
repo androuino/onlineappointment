@@ -77,7 +77,7 @@ m2d2.ready($ => {
                     iform.email.value            = data.email;
                     iform.contactNumber.value    = data.contactNumber;
                     iform.apptType.value         = data.apptType;
-                    iform.deleteButton.disabled  = false;
+                    iform.deletebutton.disabled  = false;
                 } else {
                     swalWithBootstrapButtons.fire(
                         'Oops...',

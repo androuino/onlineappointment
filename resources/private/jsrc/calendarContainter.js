@@ -180,12 +180,12 @@ m2d2.ready($ => {
                 );
             }
         },
-        deleteButton : {
+        deletebutton : {
             onclick : function(ev) {
                 deleteRecord(pid.value);
             }
         },
-        clearButton : {
+        clearbutton : {
             onclick : function(ev) {
                 clear();
             }
@@ -228,7 +228,7 @@ m2d2.ready($ => {
                     this.email.value            = data.email;
                     this.contactNumber.value    = data.contactNumber;
                     this.apptType.value         = data.apptType;
-                    this.deleteButton.disabled  = false;
+                    this.deletebutton.disabled  = false;
                 } else {
                     swalWithBootstrapButtons.fire(
                         'Oops...',
@@ -296,7 +296,7 @@ m2d2.ready($ => {
             this.email.value            = "";
             this.contactNumber.value    = "";
             this.apptType.value         = "";
-            this.deleteButton.disabled  = true;
+            this.deletebutton.disabled  = true;
             search.input.value          = "";
             calendar.show               = false;
         }

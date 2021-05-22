@@ -3,6 +3,7 @@ package com.intellisrc.josapedmoreno.ui
 import com.google.gson.Gson
 import com.intellisrc.core.Log
 import com.intellisrc.josapedmoreno.appointment.Appointment
+import com.intellisrc.josapedmoreno.auth.AuthService
 import com.intellisrc.josapedmoreno.data.AppointmentModel
 import com.intellisrc.web.Service
 import com.intellisrc.web.ServiciableMultiple
@@ -20,7 +21,6 @@ class WebUIService : ServiciableMultiple {
     override fun getServices(): MutableList<Service> {
         val services: MutableList<Service> = ArrayList()
         services.add(getAllAppointments())
-        services.add(buttonActivity())
         services.add(getAppointmentsWithOffset())
         services.add(updateRecord())
         services.add(getRecord())
@@ -32,24 +32,12 @@ class WebUIService : ServiciableMultiple {
         private const val MAX_RECORD = 1000
         private val appointment = Appointment()
 
-        fun buttonActivity(): Service {
-            val service = Service()
-            //service.method = Service.Method.POST
-            service.allowOrigin = "*"
-            service.path = ".button"
-            service.action = Service.Action { _, _ ->
-                Log.i("Button is clicked")
-                mapOf("ok" to true)
-            }
-            return service
-        }
-
         fun getAllAppointments(): Service {
             var ok = false
             val service = Service()
             service.method = Service.Method.GET
             service.path = "/appts"
-            service.allowOrigin = "*"
+            service.allow = AuthService.allowAdmin()
             service.action = Service.Action { _, response ->
                 val apptList = arrayListOf<Map<String, Any>>()
                 try {
@@ -76,7 +64,7 @@ class WebUIService : ServiciableMultiple {
             val service = Service()
             service.method = Service.Method.GET
             service.path = "/appts/:offset/:qty"
-            service.allowOrigin = "*"
+            service.allow = AuthService.allowAdmin()
             service.action = Service.Action { request, response ->
                 val apptList = arrayListOf<Map<String, Any>>()
                 val offset: Int
@@ -115,7 +103,7 @@ class WebUIService : ServiciableMultiple {
             val service = Service()
             service.method = Service.Method.POST
             service.path = "/update/:id"
-            service.allowOrigin = "*"
+            service.allow = AuthService.allowAdmin()
             service.action = Service.Action { request, response ->
                 var ok = false
                 var id = 0
@@ -170,7 +158,7 @@ class WebUIService : ServiciableMultiple {
             val service = Service()
             service.method = Service.Method.GET
             service.path = "/get_record/:id"
-            service.allowOrigin = "*"
+            service.allow = AuthService.allowAdmin()
             service.action = Service.Action { request, response ->
                 var ok = false
                 var id = 0
@@ -198,7 +186,7 @@ class WebUIService : ServiciableMultiple {
             val service = Service()
             service.method = Service.Method.DELETE
             service.path = "/delete/:id"
-            service.allowOrigin = "*"
+            service.allow = AuthService.allowAdmin()
             service.action = Service.Action { request, response ->
                 var ok = false
                 var id = 0
