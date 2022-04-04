@@ -2,20 +2,19 @@ m2d2.ready($ => {
     $(logincontainer, {
         show : true
     });
-    var loginEmail = $(loginemail, {});
-    var loginPassword = $(loginpassword, {});
+    var loginEmail = $(loginemail, { value : "" });
+    var loginPassword = $(loginpassword, { value : "" });
     $(loginbutton, {
         onclick : function(ev) {
-            $.post(auth + "login/", {
+            $.post(auth + "login", {
                 user: loginEmail.value,
                 pass: loginPassword.value
-            }, function() { // successful
+            }, (res) => { // successful
                 $.alert("Successful!");
+                $.alert(res);
                 logincontainer.show = false;
                 appointmentsview.show = true;
                 userlist.getAllAppointments();
-            }, function() { // unsuccessful
-                $.alert("Unsuccessful!")
             });
         }
     });

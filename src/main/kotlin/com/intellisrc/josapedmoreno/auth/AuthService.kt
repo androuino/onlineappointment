@@ -1,11 +1,14 @@
 package com.intellisrc.josapedmoreno.auth
 
+import com.google.gson.Gson
 import com.intellisrc.core.Log
 import com.intellisrc.web.ServiciableAuth
 import com.intellisrc.web.JSON
 import com.intellisrc.crypt.hash.PasswordHash
 import com.intellisrc.db.Database
+import com.intellisrc.josapedmoreno.auth.data.AuthModel
 import com.intellisrc.web.Service.Allow
+import com.intellisrc.web.services.LoginService
 import spark.Request
 import spark.Response
 import java.lang.Exception
@@ -36,7 +39,7 @@ class AuthService : ServiciableAuth {
      * @return path as string
      */
     override fun getPath(): String {
-        return "/auth"
+        return "/system/auth"
     }
 
     override fun getLoginPath(): String {
@@ -55,9 +58,13 @@ class AuthService : ServiciableAuth {
      */
     override fun onLogin(request: Request, response: Response): Map<String, Any> {
         var level = Level.GUEST
-        val json = JSON.decode(request.body()).toMap()
-        val user = json["user"].toString()
-        val pass = json["pass"].toString().toCharArray()
+        val gson = Gson()
+        val json = gson.fromJson(request.body(), AuthModel::class.java)
+        //val json = JSON.decode(request.body()).toMap()
+        Log.i(json.toString())
+        val user = json.user
+        val pass = json.pass.toCharArray()
+        Log.i("$user : $pass")
         if (pass.isNotEmpty()) {
             val db = Database.connect()
             val hash = db.table(authTable).field("pass").key("user")[user].toString()

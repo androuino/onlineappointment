@@ -1,4 +1,4 @@
-var auth = "/auth/"
+var auth = "/system/auth/"
 var url = "/system/";
 var today = new Date();
 var currentMonth = today.getMonth();
